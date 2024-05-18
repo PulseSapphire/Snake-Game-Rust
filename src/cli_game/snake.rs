@@ -12,18 +12,11 @@ pub struct Position {
 }
 
 pub struct Snake {
-    position: Position,
+    head_position: Position,
+    tail_position: Position,
     direction: Direction,
     length: u16,
-
 }
 
 impl Snake {
-    pub fn position(&self) -> &Position {
-        &self.position
-    }
-
-    pub fn set_position(&mut self, position: Position) {
-        self.position = position;
-    }
 }
