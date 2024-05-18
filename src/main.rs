@@ -1,4 +1,4 @@
-mod Game;
+mod game;
 mod cli_game;
 
 fn main() {
