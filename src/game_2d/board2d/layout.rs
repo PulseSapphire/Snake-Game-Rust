@@ -11,4 +11,11 @@ impl <const W: u8, const H: u8> Layout2D<W, H> {
         }
     }
 
+    pub fn get_width(&self) -> u8 {
+        self.layout.len() as u8
+    }
+    
+    pub fn get_height(&self) -> u8 {
+        self.layout[0].len() as u8
+    }
 }
