@@ -4,9 +4,6 @@ use crate::game_2d::snake::Snake2D;
 
 mod layout;
 
-const DEFAULT_BOARD_WIDTH: u8 = u8::MAX;
-const DEFAULT_BOARD_HEIGHT: u8 = u8::MAX;
-
 pub struct Board2D<const W: u8, const H: u8> {
     snake: Snake2D,
     layout: Layout2D<W, H>,
