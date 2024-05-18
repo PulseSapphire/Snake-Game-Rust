@@ -51,5 +51,7 @@ impl <'a> SnakeController2D {
             }
             Stationary => (),
         }
+
+        //
     }
 }
