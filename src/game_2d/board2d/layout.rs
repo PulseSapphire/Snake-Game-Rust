@@ -23,4 +23,26 @@ impl <const W: usize, const H: usize> Layout2D<W, H>
         Self::HEIGHT_U8
     }
 
+    pub fn get_max_adjacent (&self, position: &Position2D) -> u16 {
+        let x = position.x as usize;
+        let y = position.y as usize;
+
+        self.layout[x+1][y]
+            .max(self.layout[x-1][y]
+                .max(self.layout[x][y+1]
+                    .max(self.layout[x][y-1])))
+
+    }
+
+    pub fn get_min_adjacent (&self, position: &Position2D) -> u16 {
+        let x = position.x as usize;
+        let y = position.y as usize;
+
+        self.layout[x+1][y]
+            .min(self.layout[x-1][y]
+                .min(self.layout[x][y+1]
+                    .min(self.layout[x][y-1])))
+
+    }
+
 }
