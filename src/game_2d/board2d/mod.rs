@@ -31,4 +31,8 @@ impl <const W: usize, const H: usize> Board2D<W, H> {
     pub fn get_height(&self) -> u8 {
         self.layout.get_height()
     }
+
+    pub fn get_layout(&self) -> &Layout2D<W, H> {
+        &self.layout
+    }
 }
