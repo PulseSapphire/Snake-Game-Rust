@@ -13,6 +13,10 @@ impl <const W: usize, const H: usize> Layout2D<W, H>
         }
     }
 
+    pub fn get_val_at_pos (&self, position: Position2D) -> u16 {
+        self.layout[position.x][position.y]
+    }
+
     const WIDTH_U8: u8 = W as u8;
     pub fn get_width(&self) -> u8 {
         Self::WIDTH_U8
