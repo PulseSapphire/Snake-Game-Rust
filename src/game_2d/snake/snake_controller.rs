@@ -89,8 +89,20 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
     }
 
     pub fn move_snake(&mut self) -> Result<(), &'static str> {
+        if let Direction2D::Stationary = self.snake.direction {
+            return Ok(());
+        }
+
         self.move_head()?;
-        self.move_tail();
+
+        if self.snake.move_tail {
+            self.move_tail();
+        }
+
+        if !self.snake.move_tail {
+            self.snake.move_tail = true;
+        }
+
         Ok(())
     }
 }

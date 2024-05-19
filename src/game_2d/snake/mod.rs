@@ -7,6 +7,7 @@ pub struct Snake2D {
     tail_position: Position2D,
     direction: Direction2D,
     length: u16,
+    move_tail: bool,
 }
 
 impl Snake2D {
