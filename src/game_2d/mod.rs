@@ -1,2 +1,2 @@
-mod board2d;
+pub mod board2d;
 mod snake;
