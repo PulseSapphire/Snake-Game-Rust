@@ -63,6 +63,8 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
         let current_tail_pos = &self.snake.tail_position;
         let current_val = self.board.get_layout().get_val_at_pos(current_tail_pos);
 
+        self.board.get_layout_mut().set_val_at_index(current_tail_pos.x as usize, current_tail_pos.y as usize, 0);
+
         if let Some(position) = self.board.get_layout().get_adjacent_position_with_val(current_tail_pos, current_val + 1) {
             self.snake.tail_position = position;
         }
