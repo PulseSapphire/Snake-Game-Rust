@@ -63,7 +63,7 @@ impl <const W: usize, const H: usize> Layout2D<W, H>
             let val = self.layout[adj_x][adj_y];
             if val > max_val {
                 max_val = val;
-                max_pos = Position2D { x: *adj_x as u16, y: *adj_y as u16 };
+                max_pos = Position2D { x: adj_x as u8, y: adj_y as u8 };
             }
         }
 
