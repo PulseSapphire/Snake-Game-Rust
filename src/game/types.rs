@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub enum Direction2D {
     Up,
     Down,
@@ -6,6 +7,7 @@ pub enum Direction2D {
     Stationary,
 }
 
+#[derive(Clone)]
 pub struct Position2D {
     pub x: u8,
     pub y: u8,
