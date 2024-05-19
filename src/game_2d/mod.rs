@@ -6,8 +6,6 @@ mod board2d;
 mod snake;
 mod snake_controller;
 
-pub struct Game2D<'a, const W: usize, const H: usize> {
-    board: Board2D<W, H>,
-    snake: Snake2D,
-    snake_controller: SnakeController2D<'a, W, H>,
+pub struct Game2D<const W: usize, const H: usize> {
+    snake_controller: SnakeController2D<W, H>,
 }
