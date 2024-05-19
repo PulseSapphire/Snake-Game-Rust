@@ -1,4 +1,5 @@
 use crate::game::types::{Direction2D, Position2D};
+use crate::game::types::Direction2D::Stationary;
 
 pub struct Snake2D {
     head_position: Position2D,
@@ -9,6 +10,17 @@ pub struct Snake2D {
 }
 
 impl Snake2D {
+
+    pub fn new (start_position: Position2D) -> Self {
+        Snake2D {
+            head_position: start_position.clone(),
+            tail_position: start_position,
+            direction: Stationary,
+            length: 0,
+            move_tail: false,
+        }
+    }
+
     pub fn get_length(&self) -> u16 {
         self.length
     }
