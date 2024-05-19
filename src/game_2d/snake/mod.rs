@@ -22,4 +22,11 @@ impl Snake2D {
     pub fn get_head_position(&self) -> &Position2D {
         &self.head_position
     }
+
+    pub fn get_tail_position_mut(&mut self) -> &mut Position2D {
+        &mut self.tail_position
+    }
+    pub fn get_head_position_mut(&mut self) -> &mut Position2D {
+        &mut self.head_position
+    }
 }
