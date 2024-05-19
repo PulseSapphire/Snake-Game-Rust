@@ -23,6 +23,10 @@ impl<const W: usize, const H: usize> Layout2D<W, H> {
         self.layout[x][y] = new_value;
     }
 
+    pub fn get_layout(&self) -> &[[u16; H]] {
+        &self.layout
+    }
+
     const WIDTH_U8: u8 = W as u8;
     pub fn get_width(&self) -> u8 {
         Self::WIDTH_U8
