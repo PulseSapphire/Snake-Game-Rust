@@ -5,14 +5,13 @@ use crate::game_2d::snake::Snake2D;
 mod layout;
 
 pub struct Board2D<const W: usize, const H: usize> {
-    snake: Snake2D,
     layout: Layout2D<W, H>,
     food: Position2D,
 }
 
 impl<const W: usize, const H: usize> Board2D<W, H> {
     const U8_MAX_IN_USIZE: usize = u8::MAX as usize;
-    pub fn new(snake: Snake2D, food: Position2D) -> Self {
+    pub fn new(food: Position2D) -> Self {
         if W > Self::U8_MAX_IN_USIZE || H > Self::U8_MAX_IN_USIZE {
             panic!(
                 "Cannot use dimensions bigger than {}",
@@ -21,7 +20,6 @@ impl<const W: usize, const H: usize> Board2D<W, H> {
         }
 
         Self {
-            snake,
             food,
             layout: Layout2D::<W, H>::new(),
         }
