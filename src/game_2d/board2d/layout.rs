@@ -23,7 +23,7 @@ impl <const W: usize, const H: usize> Layout2D<W, H>
         Self::HEIGHT_U8
     }
 
-    pub fn get_max_adjacent (&self, position: &Position2D) -> u16 {
+    pub fn get_max_adjacent_value (&self, position: &Position2D) -> u16 {
         let x = position.x as usize;
         let y = position.y as usize;
 
@@ -34,7 +34,7 @@ impl <const W: usize, const H: usize> Layout2D<W, H>
 
     }
 
-    pub fn get_min_adjacent (&self, position: &Position2D) -> u16 {
+    pub fn get_min_adjacent_value (&self, position: &Position2D) -> u16 {
         let x = position.x as usize;
         let y = position.y as usize;
 
