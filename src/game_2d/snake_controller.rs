@@ -80,7 +80,7 @@ impl<'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
     }
 
     fn move_tail(&mut self) {
-        let current_tail_pos = &self.snake.tail_position;
+        let current_tail_pos = &self.snake.get_tail_position();
         let current_val = self.board.get_layout().get_val_at_pos(current_tail_pos);
 
         self.board.get_layout_mut().set_val_at_index(
@@ -94,26 +94,27 @@ impl<'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
             .get_layout()
             .get_adjacent_position_with_val(current_tail_pos, current_val + 1)
         {
-            self.snake.tail_position = position;
+            self.snake.set_tail_position(position);
         } else {
             panic!("Could not find new valid tail position for snake.");
         }
     }
 
     pub fn move_snake(&mut self) -> Result<(), &'static str> {
-        if let Direction2D::Stationary = self.snake.direction {
+        if let Direction2D::Stationary = self.snake.get_direction() {
             return Ok(());
         }
 
         self.move_head()?;
 
-        if self.snake.move_tail {
+        let can_move_tail = self.snake.get_move_tail();
+        if can_move_tail {
             self.move_tail();
         }
 
-        if !self.snake.move_tail {
-            self.snake.move_tail = true;
-            self.snake.length += 1;
+        if can_move_tail {
+            self.snake.set_move_tail(true);
+            self.snake.increment_length();
         }
 
         Ok(())
