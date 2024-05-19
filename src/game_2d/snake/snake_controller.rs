@@ -59,7 +59,11 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
         Ok(())
     }
 
+    fn move_tail (&mut self) {
+        let Position2D { x: ref mut tx, y: ref mut ty } = self.snake.get_tail_position_mut();
 
+
+    }
 
     pub fn move_snake(&mut self) -> Result<(), &'static str> {
         self.move_head()?;
