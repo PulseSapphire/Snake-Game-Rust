@@ -1,3 +1,4 @@
+use std::alloc::Layout;
 use std::ops::Deref;
 use crate::game::types::{Direction2D, Position2D};
 use crate::game_2d::board2d::Board2D;
@@ -19,6 +20,9 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
     fn move_head (&mut self) -> Result<(), &'static str> {
         let dir = self.snake.get_direction().clone();
         let Position2D { x: ref mut hx, y: ref mut hy } = self.snake.get_head_position_mut();
+
+        let prev_hx = hx.clone();
+        let prev_hy = hy.clone();
 
         use Direction2D::*;
         match dir {
@@ -56,6 +60,19 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
             Stationary => (),
         }
 
+        let layout = self.board.get_layout();
+
+        let prev_head_val = layout.get_val_at_index(prev_hx as usize, prev_hy as usize);
+        let hx = *hx as usize;
+        let hy = *hy as usize;
+        let new_head_location = self.board.get_layout().get_val_at_index(hx, hy);
+
+        if new_head_location > 0 {
+            return Err("Snake hits itself!");
+        }
+
+        self.board.get_layout_mut().set_val_at_index(hx, hy, prev_head_val);
+
         Ok(())
     }
 
@@ -71,8 +88,6 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
         else {
             panic!("Could not find new valid tail position for snake.");
         }
-
-
     }
 
     pub fn move_snake(&mut self) -> Result<(), &'static str> {
