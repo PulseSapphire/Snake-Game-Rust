@@ -13,8 +13,16 @@ impl <const W: usize, const H: usize> Layout2D<W, H>
         }
     }
 
-    pub fn get_val_at_pos (&self, position: Position2D) -> u16 {
-        self.layout[position.x][position.y]
+    pub fn get_val_at_pos (&self, position: &Position2D) -> u16 {
+        self.layout[position.x as usize][position.y as usize]
+    }
+
+    pub fn get_val_at_index (&self, x: usize, y: usize) -> u16 {
+        self.layout[x][y]
+    }
+
+    pub fn set_val_at_index (&mut self, x: usize, y: usize, new_value: u16) {
+        self.layout[x][y] = new_value;
     }
 
     const WIDTH_U8: u8 = W as u8;
