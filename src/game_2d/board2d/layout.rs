@@ -94,4 +94,25 @@ impl <const W: usize, const H: usize> Layout2D<W, H>
 
         min_pos
     }
+
+    pub fn get_adjacent_position_with_val(&self, position: &Position2D, target_value: u16) -> Option<Position2D> {
+        let x = position.x as usize;
+        let y = position.y as usize;
+
+        let adjacent_positions = [
+            (x+1, y),
+            (x-1, y),
+            (x, y+1),
+            (x, y-1),
+        ];
+
+        for (adj_x, adj_y) in adjacent_positions {
+            let val = self.layout[adj_x][adj_y];
+            if val == target_value {
+                return Some(Position2D { x: adj_x as u8, y: adj_y as u8 });
+            }
+        }
+
+        None
+    }
 }
