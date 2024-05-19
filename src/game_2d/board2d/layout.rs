@@ -69,4 +69,29 @@ impl <const W: usize, const H: usize> Layout2D<W, H>
 
         max_pos
     }
+
+    pub fn get_min_adjacent_position(&self, position: &Position2D) -> Position2D {
+        let x = position.x as usize;
+        let y = position.y as usize;
+
+        let mut min_pos = Position2D { x: 0, y: 0 };
+        let mut min_val = u16::MIN;
+
+        let adjacent_positions = [
+            (x+1, y),
+            (x-1, y),
+            (x, y+1),
+            (x, y-1),
+        ];
+
+        for (adj_x, adj_y) in adjacent_positions {
+            let val = self.layout[adj_x][adj_y];
+            if val < min_val {
+                min_val = val;
+                min_pos = Position2D { x: adj_x as u8, y: adj_y as u8 };
+            }
+        }
+
+        min_pos
+    }
 }
