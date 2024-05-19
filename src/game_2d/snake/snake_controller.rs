@@ -101,6 +101,7 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
 
         if !self.snake.move_tail {
             self.snake.move_tail = true;
+            self.snake.length += 1;
         }
 
         Ok(())
