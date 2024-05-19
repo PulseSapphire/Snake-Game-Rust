@@ -15,10 +15,9 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
         }
     }
 
-    pub fn move_snake(&mut self) -> Result<(), &'static str> {
-        let dir = self.snake.get_direction();
-        let Position2D { x: ref mut hx, y: ref mut hy } = self.snake.get_head_position();
-        let Position2D { x: ref mut tx, y: ref mut ty } = self.snake.get_tail_position();
+    fn move_head (&mut self) -> Result<(), &'static str> {
+        let dir = self.snake.get_direction().clone();
+        let Position2D { x: ref mut hx, y: ref mut hy } = self.snake.get_head_position_mut();
 
         use Direction2D::*;
         match dir {
@@ -46,7 +45,7 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
             }
 
             Right => {
-                if (*hx == self.board.get_width() - 1) {
+                if *hx == self.board.get_width() - 1 {
                     return Err("Snake hits the right wall!");
                 }
 
@@ -56,6 +55,12 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
             Stationary => (),
         }
 
+        Ok(())
+    }
+
+    pub fn move_snake(&mut self) -> Result<(), &'static str> {
+        self.move_head()?;
+        let Position2D { x: ref mut tx, y: ref mut ty } = self.snake.get_tail_position_mut();
         Ok(())
     }
 }
