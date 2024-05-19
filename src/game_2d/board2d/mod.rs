@@ -35,4 +35,8 @@ impl <const W: usize, const H: usize> Board2D<W, H> {
     pub fn get_layout(&self) -> &Layout2D<W, H> {
         &self.layout
     }
+
+    pub fn get_layout_mut(&mut self) -> &mut Layout2D<W, H> {
+        &mut self.layout
+    }
 }
