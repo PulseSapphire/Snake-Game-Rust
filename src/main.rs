@@ -1,5 +1,5 @@
-mod game;
 mod cli_game;
+mod game;
 
 mod game_2d;
 

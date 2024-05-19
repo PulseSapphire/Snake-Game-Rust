@@ -7,17 +7,20 @@ pub struct SnakeController2D<'a, const W: usize, const H: usize> {
     board: &'a mut Board2D<W, H>,
 }
 
-impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
+impl<'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
     pub fn new(snake2d: &'a mut Snake2D, board2d: &'a mut Board2D<W, H>) -> Self {
         Self {
             snake: snake2d,
-            board: board2d
+            board: board2d,
         }
     }
 
-    fn move_head (&mut self) -> Result<(), &'static str> {
+    fn move_head(&mut self) -> Result<(), &'static str> {
         let dir = self.snake.get_direction().clone();
-        let Position2D { x: ref mut hx, y: ref mut hy } = self.snake.get_head_position_mut();
+        let Position2D {
+            x: ref mut hx,
+            y: ref mut hy,
+        } = self.snake.get_head_position_mut();
 
         let prev_hx = hx.clone();
         let prev_hy = hy.clone();
@@ -69,21 +72,30 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
             return Err("Snake hits itself!");
         }
 
-        self.board.get_layout_mut().set_val_at_index(hx, hy, prev_head_val);
+        self.board
+            .get_layout_mut()
+            .set_val_at_index(hx, hy, prev_head_val);
 
         Ok(())
     }
 
-    fn move_tail (&mut self) {
+    fn move_tail(&mut self) {
         let current_tail_pos = &self.snake.tail_position;
         let current_val = self.board.get_layout().get_val_at_pos(current_tail_pos);
 
-        self.board.get_layout_mut().set_val_at_index(current_tail_pos.x as usize, current_tail_pos.y as usize, 0);
+        self.board.get_layout_mut().set_val_at_index(
+            current_tail_pos.x as usize,
+            current_tail_pos.y as usize,
+            0,
+        );
 
-        if let Some(position) = self.board.get_layout().get_adjacent_position_with_val(current_tail_pos, current_val + 1) {
+        if let Some(position) = self
+            .board
+            .get_layout()
+            .get_adjacent_position_with_val(current_tail_pos, current_val + 1)
+        {
             self.snake.tail_position = position;
-        }
-        else {
+        } else {
             panic!("Could not find new valid tail position for snake.");
         }
     }
