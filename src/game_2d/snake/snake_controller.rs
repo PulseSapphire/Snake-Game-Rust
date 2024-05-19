@@ -5,11 +5,11 @@ use crate::game_2d::snake::Snake2D;
 
 pub struct SnakeController2D<'a, const W: usize, const H: usize> {
     snake: &'a mut Snake2D,
-    board: &'a Board2D<W, H>,
+    board: &'a mut Board2D<W, H>,
 }
 
 impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
-    pub fn new(snake2d: &'a mut Snake2D, board2d: &'a Board2D<W, H>) -> Self {
+    pub fn new(snake2d: &'a mut Snake2D, board2d: &'a mut Board2D<W, H>) -> Self {
         Self {
             snake: snake2d,
             board: board2d
