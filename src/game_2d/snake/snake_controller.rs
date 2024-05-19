@@ -60,13 +60,22 @@ impl <'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
     }
 
     fn move_tail (&mut self) {
-        let Position2D { x: ref mut tx, y: ref mut ty } = self.snake.get_tail_position_mut();
+        let current_tail_pos = &self.snake.tail_position;
+        let current_val = self.board.get_layout().get_val_at_pos(current_tail_pos);
+
+        if let Some(position) = self.board.get_layout().get_adjacent_position_with_val(current_tail_pos, current_val + 1) {
+            self.snake.tail_position = position;
+        }
+        else {
+            panic!("Could not find new valid tail position for snake.");
+        }
 
 
     }
 
     pub fn move_snake(&mut self) -> Result<(), &'static str> {
         self.move_head()?;
+        self.move_tail();
         Ok(())
     }
 }
