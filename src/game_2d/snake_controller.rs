@@ -2,13 +2,13 @@ use crate::game::types::{Direction2D, Position2D};
 use crate::game_2d::board2d::Board2D;
 use crate::game_2d::snake::Snake2D;
 
-pub struct SnakeController2D<'a, const W: usize, const H: usize> {
-    snake: &'a mut Snake2D,
-    board: &'a mut Board2D<W, H>,
+pub struct SnakeController2D<const W: usize, const H: usize> {
+    snake: Snake2D,
+    board: Board2D<W, H>,
 }
 
-impl<'a, const W: usize, const H: usize> SnakeController2D<'a, W, H> {
-    pub fn new(snake2d: &'a mut Snake2D, board2d: &'a mut Board2D<W, H>) -> Self {
+impl<const W: usize, const H: usize> SnakeController2D<W, H> {
+    pub fn new(snake2d: Snake2D, board2d: Board2D<W, H>) -> Self {
         Self {
             snake: snake2d,
             board: board2d,
