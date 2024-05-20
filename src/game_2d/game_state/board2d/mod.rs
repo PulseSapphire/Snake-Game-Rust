@@ -1,6 +1,5 @@
 use crate::game::types::Position2D;
-use crate::game_2d::board2d::layout::Layout2D;
-use crate::game_2d::snake::Snake2D;
+use crate::game_2d::game_state::board2d::layout::Layout2D;
 
 mod layout;
 
