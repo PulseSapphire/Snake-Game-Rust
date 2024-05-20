@@ -1,12 +1,15 @@
-mod snake_controller_observers;
+pub mod snake_controller_observers;
 
 use crate::game::types::{Direction2D, Position2D};
 use crate::game_2d::board2d::Board2D;
 use crate::game_2d::snake::Snake2D;
+use crate::game_2d::snake_controller::snake_controller_observers::OnSnakeMove;
 
 pub struct SnakeController2D<const W: usize, const H: usize> {
     snake: Snake2D,
     board: Board2D<W, H>,
+
+    observers: Vec<Box<dyn OnSnakeMove>>,
 }
 
 impl<const W: usize, const H: usize> SnakeController2D<W, H> {
@@ -14,6 +17,7 @@ impl<const W: usize, const H: usize> SnakeController2D<W, H> {
         Self {
             snake: snake2d,
             board: board2d,
+            observers: Vec::new(),
         }
     }
 
@@ -120,5 +124,15 @@ impl<const W: usize, const H: usize> SnakeController2D<W, H> {
         }
 
         Ok(())
+    }
+
+    pub fn add_event_handler (&mut self, observer: Box<dyn OnSnakeMove>) {
+        self.observers.push(observer);
+    }
+
+    pub fn run_event_handlers (&mut self, last_position: Position2D, new_position: Position2D, direction: Direction2D, grow: bool) {
+        for observer in &mut self.observers {
+            observer.on_event(&last_position, &new_position, &direction, grow);
+        }
     }
 }
