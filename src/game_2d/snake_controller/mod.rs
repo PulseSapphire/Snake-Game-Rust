@@ -1,3 +1,5 @@
+mod snake_controller_observers;
+
 use crate::game::types::{Direction2D, Position2D};
 use crate::game_2d::board2d::Board2D;
 use crate::game_2d::snake::Snake2D;
