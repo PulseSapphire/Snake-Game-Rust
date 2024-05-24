@@ -6,7 +6,6 @@ pub struct Snake2D {
     tail_position: Position2D,
     direction: Direction2D,
     length: u16,
-    move_tail: bool,
 }
 
 impl Snake2D {
@@ -17,7 +16,6 @@ impl Snake2D {
             tail_position: start_position,
             direction: Stationary,
             length: 0,
-            move_tail: false,
         }
     }
 
@@ -49,12 +47,6 @@ impl Snake2D {
         &mut self.head_position
     }
 
-    pub fn get_move_tail(&self) -> bool {
-        self.move_tail
-    }
-    pub fn set_move_tail(&mut self, move_tail: bool) {
-        self.move_tail = move_tail;
-    }
     pub fn increment_length(&mut self) {
         self.length += 1;
     }
