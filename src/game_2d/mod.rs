@@ -5,7 +5,7 @@ use game_state::snake::Snake2D;
 use crate::game_2d::game_state::board2d::Board2D;
 use crate::game_2d::game_state::food::Food;
 use crate::game_2d::game_state::GameState;
-use crate::game_2d::snake_controller::SnakeController2D;
+use crate::game_2d::snake_controller::GameController2D;
 
 pub mod snake_controller;
 mod layout_manager;
@@ -13,7 +13,7 @@ mod game_state;
 
 pub struct Game2D<const W: usize, const H: usize> {
     game_state: Rc<RefCell<GameState<W, H>>>,
-    snake_controller: SnakeController2D<W, H>,
+    game_controller: GameController2D<W, H>,
 }
 
 impl <const W: usize, const H: usize> Game2D<W, H> {
@@ -33,7 +33,7 @@ impl <const W: usize, const H: usize> Game2D<W, H> {
 
         Self {
             game_state,
-            snake_controller: SnakeController2D::new(Rc::downgrade(&game_state))
+            game_controller: GameController2D::new(Rc::downgrade(&game_state))
         }
     }
 }

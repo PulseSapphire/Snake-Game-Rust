@@ -9,12 +9,12 @@ use crate::game_2d::game_state::snake::Snake2D;
 
 use crate::game_2d::snake_controller::snake_controller_observers::OnSnakeMove;
 
-pub struct SnakeController2D<const W: usize, const H: usize> {
+pub struct GameController2D<const W: usize, const H: usize> {
     game_state: Weak<RefCell<GameState<W, H>>>,
     observers: Vec<Box<dyn OnSnakeMove>>,
 }
 
-impl<const W: usize, const H: usize> SnakeController2D<W, H> {
+impl<const W: usize, const H: usize> GameController2D<W, H> {
     pub fn new(game_state: Weak<RefCell<GameState<W, H>>>) -> Self {
         Self {
             game_state,
