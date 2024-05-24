@@ -8,7 +8,6 @@ use crate::game_2d::game_state::GameState;
 use crate::game_2d::game_controller::GameController2D;
 
 pub mod game_controller;
-mod layout_manager;
 mod game_state;
 
 pub struct Game2D<const W: usize, const H: usize> {
