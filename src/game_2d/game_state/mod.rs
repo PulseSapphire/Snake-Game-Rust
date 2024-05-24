@@ -4,7 +4,7 @@ use crate::game_2d::game_state::board2d::Board2D;
 
 pub mod snake;
 pub mod board2d;
-mod food;
+pub mod food;
 
 pub struct GameState <const W: usize, const H: usize> {
     snake: Snake2D,
