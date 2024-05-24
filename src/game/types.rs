@@ -7,7 +7,7 @@ pub enum Direction2D {
     Stationary,
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct Position2D {
     pub x: u8,
     pub y: u8,
