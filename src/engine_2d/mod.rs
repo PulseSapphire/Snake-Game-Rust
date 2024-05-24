@@ -20,7 +20,7 @@ impl <const W: usize, const H: usize> Engine2D<W, H> {
     const U8_MAX_IN_USIZE: usize = u8::MAX as usize;
     pub fn new (start_position: Position2D, starting_food_position: Position2D) -> Self {
         if W > Self::U8_MAX_IN_USIZE || H > Self::U8_MAX_IN_USIZE {
-            panic!("Each dimension of the game can have a max height and width of 255 only.");
+            panic!("Each dimension can have a max length of 255 only.");
         }
 
         let snake = Snake2D::new(start_position);
