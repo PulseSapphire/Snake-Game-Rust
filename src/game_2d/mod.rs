@@ -10,12 +10,12 @@ use crate::game_2d::game_controller::GameController2D;
 pub mod game_controller;
 mod game_state;
 
-pub struct Game2D<const W: usize, const H: usize> {
+pub struct Engine2D<const W: usize, const H: usize> {
     game_state: Rc<RefCell<GameState<W, H>>>,
     game_controller: GameController2D<W, H>,
 }
 
-impl <const W: usize, const H: usize> Game2D<W, H> {
+impl <const W: usize, const H: usize> Engine2D<W, H> {
 
     const U8_MAX_IN_USIZE: usize = u8::MAX as usize;
     pub fn new (start_position: Position2D, starting_food_position: Position2D) -> Self {
