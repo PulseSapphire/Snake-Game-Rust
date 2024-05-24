@@ -1,14 +1,18 @@
+use std::cell::RefCell;
+use std::rc::Rc;
 use crate::game::types::Position2D;
-use crate::game_2d::board2d::Board2D;
-use crate::game_2d::snake::Snake2D;
+use game_state::snake::Snake2D;
+use crate::game_2d::game_state::board2d::Board2D;
+use crate::game_2d::game_state::food::Food;
+use crate::game_2d::game_state::GameState;
 use crate::game_2d::snake_controller::SnakeController2D;
 
-mod board2d;
-mod snake;
 pub mod snake_controller;
 mod layout_manager;
+mod game_state;
 
 pub struct Game2D<const W: usize, const H: usize> {
+    game_state: Rc<RefCell<GameState<W, H>>>,
     snake_controller: SnakeController2D<W, H>,
 }
 
@@ -20,8 +24,16 @@ impl <const W: usize, const H: usize> Game2D<W, H> {
             panic!("Each dimension of the game can have a max height and width of 255 only.");
         }
 
+        let snake = Snake2D::new(start_position);
+        let food = Food::new(starting_food_position);
+        let board = Board2D::<W, H>::new();
+
+        let state = GameState::<W, H>::new(snake, board, food);
+        let game_state = Rc::new(RefCell::new(state));
+
         Self {
-            snake_controller: SnakeController2D::new(Snake2D::new(start_position), Board2D::new(starting_food_position)),
+            game_state,
+            snake_controller: SnakeController2D::new(Rc::downgrade(&game_state))
         }
     }
 }
