@@ -3,11 +3,11 @@ pub mod game_controller_observers;
 use std::cell::RefCell;
 use std::rc::Weak;
 use crate::game::types::{Direction2D, Position2D};
-use crate::game_2d::game_state::board2d::Board2D;
-use crate::game_2d::game_state::GameState;
-use crate::game_2d::game_state::snake::Snake2D;
+use crate::engine_2d::game_state::board2d::Board2D;
+use crate::engine_2d::game_state::GameState;
+use crate::engine_2d::game_state::snake::Snake2D;
 
-use crate::game_2d::game_controller::game_controller_observers::OnSnakeMove;
+use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
 
 pub struct GameController2D<const W: usize, const H: usize> {
     game_state: Weak<RefCell<GameState<W, H>>>,

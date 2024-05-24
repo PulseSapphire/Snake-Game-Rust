@@ -2,10 +2,10 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use crate::game::types::Position2D;
 use game_state::snake::Snake2D;
-use crate::game_2d::game_state::board2d::Board2D;
-use crate::game_2d::game_state::food::Food;
-use crate::game_2d::game_state::GameState;
-use crate::game_2d::game_controller::GameController2D;
+use crate::engine_2d::game_state::board2d::Board2D;
+use crate::engine_2d::game_state::food::Food;
+use crate::engine_2d::game_state::GameState;
+use crate::engine_2d::game_controller::GameController2D;
 
 pub mod game_controller;
 mod game_state;
