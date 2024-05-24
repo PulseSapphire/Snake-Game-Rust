@@ -13,7 +13,7 @@ pub struct GameState <const W: usize, const H: usize> {
 }
 
 impl <const W: usize, const H: usize> GameState<W, H> {
-    fn new (snake: Snake2D, board: Board2D<W, H>, food: Food) -> Self {
+    pub fn new (snake: Snake2D, board: Board2D<W, H>, food: Food) -> Self {
         Self {
             snake,
             board,
