@@ -7,7 +7,7 @@ use crate::game_2d::game_state::board2d::Board2D;
 use crate::game_2d::game_state::GameState;
 use crate::game_2d::game_state::snake::Snake2D;
 
-use crate::game_2d::snake_controller::snake_controller_observers::OnSnakeMove;
+use crate::game_2d::game_controller::snake_controller_observers::OnSnakeMove;
 
 pub struct GameController2D<const W: usize, const H: usize> {
     game_state: Weak<RefCell<GameState<W, H>>>,

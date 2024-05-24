@@ -5,9 +5,9 @@ use game_state::snake::Snake2D;
 use crate::game_2d::game_state::board2d::Board2D;
 use crate::game_2d::game_state::food::Food;
 use crate::game_2d::game_state::GameState;
-use crate::game_2d::snake_controller::GameController2D;
+use crate::game_2d::game_controller::GameController2D;
 
-pub mod snake_controller;
+pub mod game_controller;
 mod layout_manager;
 mod game_state;
 
