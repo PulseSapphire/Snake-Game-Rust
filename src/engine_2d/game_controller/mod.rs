@@ -104,20 +104,20 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
             panic!("Tile at given index is not a snake tile.");
         };
 
-        board.set_tile_at_index(hx, hy, SnakeTile(prev_head_val + 1));
+        board.set_tile_at_index(hx, hy, BoardTile::SnakeTile(prev_head_val + 1));
 
         Ok(grows)
     }
 
     fn move_tail(snake: &mut Snake2D, board: &mut Board2D<W, H>) {
         let current_tail_pos = snake.get_tail_position();
-        let current_val = if let SnakeTile(value) = board.get_tile_at_pos(current_tail_pos) {
-            value
+        let current_val = if let BoardTile::SnakeTile(value) = board.get_tile_at_pos(current_tail_pos) {
+            value.clone()
         } else {
             panic!("Snake's tail position is not valid for board.")
         };
 
-        board.set_tile_at_pos(current_tail_pos, SnakeTile(0));
+        board.set_tile_at_pos(current_tail_pos, BoardTile::SnakeTile(0));
 
         if let Some(position) =
             board.get_adjacent_snake_tile_with_value(current_tail_pos, current_val + 1)
@@ -129,32 +129,32 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
     }
 
     pub fn move_snake(&mut self) -> Result<(), &'static str> {
-        let mut state = if let Some(state) = self.game_state.upgrade() {
-            state.borrow_mut()
+        let state_ref = if let Some(state) = self.game_state.upgrade() {
+            state
         } else {
             panic!("Failed to get a reference to the game state.")
         };
 
-        let snake = state.get_mut_snake();
+        let mut state = state_ref.borrow_mut();
+
+        let (snake, board, _) = state.get_mut_all_fields();
         if let Stationary = snake.get_direction() {
             return Ok(());
         }
-
-        let board = state.get_mut_board();
 
         let last_head_pos = snake.get_head_position().clone();
         let last_tail_pos = snake.get_tail_position().clone();
 
         let can_move_tail = Self::move_head(snake, board)?;
         if can_move_tail {
-            self.move_tail();
+            Self::move_tail(snake, board);
             snake.increment_length();
         }
 
         self.run_event_handlers(
-            last_head_pos,
+            &last_head_pos,
             snake.get_head_position(),
-            last_tail_pos,
+            &last_tail_pos,
             snake.get_head_position(),
             board,
         );
@@ -174,7 +174,7 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
         current_tail_position: &Position2D,
         board: &Board2D<W, H>,
     ) {
-        for observer in self.observers {
+        for observer in &self.observers {
             observer.on_event(
                 last_head_position,
                 new_head_position,
