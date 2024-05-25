@@ -61,32 +61,41 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
         Ok(())
     }
 
-    fn move_head(&mut self) -> Result<(), &'static str> {
-        let dir = self.snake.get_direction().clone();
+    fn move_head(snake: &mut Snake2D, board: &mut Board2D<W, H>) -> Result<bool, &'static str> {
+        let mut grows = false;
+        let dir = snake.get_direction().clone();
         let Position2D {
             x: ref mut hx,
             y: ref mut hy,
-        } = self.snake.get_head_position_mut();
+        } = snake.get_head_position_mut();
 
         let prev_hx = hx.clone();
         let prev_hy = hy.clone();
 
-        let layout = self.board.get_layout();
+        Self::move_if_valid_direction(dir, board.get_width(), board.get_height(), hx, hy)?;
 
-        let prev_head_val = layout.get_val_at_index(prev_hx as usize, prev_hy as usize);
         let hx = *hx as usize;
         let hy = *hy as usize;
-        let new_head_location = self.board.get_layout().get_val_at_index(hx, hy);
 
-        if new_head_location > 0 {
-            return Err("Snake hits itself!");
+        match board.get_tile_at_index(hx, hy) {
+            BoardTile::FoodTile => {
+                grows = true;
+            },
+            BoardTile::SnakeTile(_) => {
+                return Err("Snake hits itself!");
+            },
+            BoardTile::EmptyTile => (),
         }
 
-        self.board
-            .get_layout_mut()
-            .set_val_at_index(hx, hy, prev_head_val);
+        let prev_head_val = if let BoardTile::SnakeTile(val) = board.get_tile_at_index(prev_hx as usize, prev_hy as usize) {
+            val.clone()
+        } else {
+            panic!("Tile at given index is not a snake tile.");
+        };
 
-        Ok(())
+        board.set_tile_at_index(hx, hy, SnakeTile(prev_head_val + 1));
+
+        Ok(grows)
     }
 
     fn move_tail(&mut self) {
