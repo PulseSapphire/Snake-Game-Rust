@@ -1,7 +1,10 @@
+mod board_tile;
+
+use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
 use crate::game::types::Position2D;
 
 pub struct Board2D<const W: usize, const H: usize> {
-    layout: [[u16; H]; W],
+    layout: [[BoardTile; H]; W],
 }
 
 impl<const W: usize, const H: usize> Board2D<W, H> {
