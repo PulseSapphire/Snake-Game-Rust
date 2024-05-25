@@ -3,11 +3,10 @@ pub mod game_controller_observers;
 use std::cell::RefCell;
 use std::rc::Weak;
 use crate::game::types::{Direction2D, Position2D};
-use crate::engine_2d::game_state::board2d::Board2D;
 use crate::engine_2d::game_state::GameState;
-use crate::engine_2d::game_state::snake::Snake2D;
 
 use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
+use crate::game::types::Direction2D::{Down, Left, Right, Stationary, Up};
 
 pub struct GameController2D<const W: usize, const H: usize> {
     game_state: Weak<RefCell<GameState<W, H>>>,
@@ -22,16 +21,7 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
         }
     }
 
-    fn move_head(&mut self) -> Result<(), &'static str> {
-        let dir = self.snake.get_direction().clone();
-        let Position2D {
-            x: ref mut hx,
-            y: ref mut hy,
-        } = self.snake.get_head_position_mut();
-
-        let prev_hx = hx.clone();
-        let prev_hy = hy.clone();
-
+    fn move_if_valid_direction (dir: Direction2D, width: u8, height: u8, hx: &mut u8, hy: &mut u8) -> Result<(), &'static str> {
         use Direction2D::*;
         match dir {
             Up => {
@@ -43,7 +33,7 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
             }
 
             Down => {
-                if *hy == self.board.get_height() - 1 {
+                if *hy == height - 1 {
                     return Err("Snake hits the bottom wall!");
                 }
 
@@ -58,7 +48,7 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
             }
 
             Right => {
-                if *hx == self.board.get_width() - 1 {
+                if *hx == width - 1 {
                     return Err("Snake hits the right wall!");
                 }
 
@@ -67,6 +57,19 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
 
             Stationary => (),
         }
+
+        Ok(())
+    }
+
+    fn move_head(&mut self) -> Result<(), &'static str> {
+        let dir = self.snake.get_direction().clone();
+        let Position2D {
+            x: ref mut hx,
+            y: ref mut hy,
+        } = self.snake.get_head_position_mut();
+
+        let prev_hx = hx.clone();
+        let prev_hy = hy.clone();
 
         let layout = self.board.get_layout();
 
