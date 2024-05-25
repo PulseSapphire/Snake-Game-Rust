@@ -18,8 +18,8 @@ impl<const W: usize, const H: usize> Board2D<W, H> {
         &self.layout[position.x as usize][position.y as usize]
     }
 
-    pub fn set_tile_at_pos(&self, position: &Position2D, new_board_tile: BoardTile) {
-        self.layout[position.x][position.y] = new_board_tile;
+    pub fn set_tile_at_pos(&mut self, position: &Position2D, new_board_tile: BoardTile) {
+        self.layout[position.x as usize][position.y as usize] = new_board_tile;
     }
 
     pub fn get_tile_at_index(&self, x: usize, y: usize) -> &BoardTile {
