@@ -15,7 +15,7 @@ use crate::game::types::Direction2D::{Down, Left, Right, Stationary, Up};
 
 pub struct GameController2D<const W: usize, const H: usize> {
     game_state: Weak<RefCell<GameState<W, H>>>,
-    observers: Vec<Box<dyn OnSnakeMove>>,
+    observers: Vec<Box<dyn OnSnakeMove<W, H>>>,
 }
 
 impl<const W: usize, const H: usize> GameController2D<W, H> {
@@ -135,22 +135,27 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
 
         let board = state.get_mut_board();
 
+        let last_head_pos = snake.get_head_position().clone();
+        let last_tail_pos = snake.get_tail_position().clone();
+
         let can_move_tail = Self::move_head(snake, board)?;
         if can_move_tail {
             self.move_tail();
             snake.increment_length();
         }
 
+        self.run_event_handlers(last_head_pos, snake.get_head_position(), last_tail_pos, snake.get_head_position(), board);
+
         Ok(())
     }
 
-    pub fn add_event_handler (&mut self, observer: Box<dyn OnSnakeMove>) {
+    pub fn add_event_handler (&mut self, observer: Box<dyn OnSnakeMove<W, H>>) {
         self.observers.push(observer);
     }
 
-    pub fn run_event_handlers (&mut self, last_position: Position2D, new_position: Position2D, direction: Direction2D, grow: bool) {
-        for observer in &mut self.observers {
-            observer.on_event(&last_position, &new_position, &direction, grow);
+    pub fn run_event_handlers (&self, last_head_position: &Position2D, new_head_position: &Position2D, last_tail_position: &Position2D, current_tail_position: &Position2D, board: &Board2D<W, H>) {
+        for observer in self.observers {
+            observer.on_event(last_head_position, new_head_position, last_tail_position, current_tail_position, board);
         }
     }
 }
