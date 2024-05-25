@@ -6,6 +6,11 @@ use crate::game::types::{Direction2D, Position2D};
 use crate::engine_2d::game_state::GameState;
 
 use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
+use crate::engine_2d::game_state::board2d::Board2D;
+use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
+use crate::engine_2d::game_state::board2d::board_tile::BoardTileEnum::SnakeTile;
+use crate::engine_2d::game_state::snake::Snake2D;
+use crate::game::Game;
 use crate::game::types::Direction2D::{Down, Left, Right, Stationary, Up};
 
 pub struct GameController2D<const W: usize, const H: usize> {
@@ -98,22 +103,19 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
         Ok(grows)
     }
 
-    fn move_tail(&mut self) {
-        let current_tail_pos = &self.snake.get_tail_position();
-        let current_val = self.board.get_layout().get_val_at_pos(current_tail_pos);
+    fn move_tail(snake: &mut Snake2D, board: &mut Board2D<W, H>) {
+        let current_tail_pos = snake.get_tail_position();
+        let current_val = if let SnakeTile(value) = board.get_tile_at_pos(current_tail_pos) {
+            value
+        } else {
+            panic!("Snake's tail position is not valid for board.")
+        };
 
-        self.board.get_layout_mut().set_val_at_index(
-            current_tail_pos.x as usize,
-            current_tail_pos.y as usize,
-            0,
-        );
+        board.set_tile_at_pos(current_tail_pos, SnakeTile(0));
 
-        if let Some(position) = self
-            .board
-            .get_layout()
-            .get_adjacent_position_with_val(current_tail_pos, current_val + 1)
+        if let Some(position) = board.get_adjacent_snake_tile_with_value(current_tail_pos, current_val + 1)
         {
-            self.snake.set_tail_position(position);
+            snake.set_tail_position(position);
         } else {
             panic!("Could not find new valid tail position for snake.");
         }
