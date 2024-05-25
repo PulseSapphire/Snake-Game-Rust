@@ -36,4 +36,8 @@ impl<const W: usize, const H: usize> GameState<W, H> {
     pub fn get_mut_food(&mut self) -> &mut Food {
         &mut self.food
     }
+
+    pub fn get_mut_all_fields (&mut self) -> (&mut Snake2D, &mut Board2D<W, H>, &mut Food) {
+        (&mut self.snake, &mut self.board, &mut self.food)
+    }
 }
