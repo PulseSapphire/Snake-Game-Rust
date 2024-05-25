@@ -1,6 +1,5 @@
-pub type BoardTile = BoardTileEnum;
-
-pub enum BoardTileEnum {
+#[derive(Clone, Copy)]
+pub enum BoardTile {
     FoodTile,
     SnakeTile(u16),
     EmptyTile,
