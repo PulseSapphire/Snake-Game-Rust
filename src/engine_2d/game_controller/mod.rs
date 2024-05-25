@@ -7,11 +7,9 @@ use std::rc::Weak;
 
 use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
-use crate::engine_2d::game_state::board2d::board_tile::BoardTileEnum::SnakeTile;
 use crate::engine_2d::game_state::board2d::Board2D;
 use crate::engine_2d::game_state::snake::Snake2D;
-use crate::game::types::Direction2D::{Down, Left, Right, Stationary, Up};
-use crate::game::Game;
+use crate::game::types::Direction2D::Stationary;
 
 pub struct GameController2D<const W: usize, const H: usize> {
     game_state: Weak<RefCell<GameState<W, H>>>,

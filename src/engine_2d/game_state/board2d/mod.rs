@@ -1,7 +1,6 @@
 pub mod board_tile;
 
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
-use crate::engine_2d::game_state::board2d::board_tile::BoardTile::EmptyTile;
 use crate::game::types::Position2D;
 
 pub struct Board2D<const W: usize, const H: usize> {

@@ -1,5 +1,5 @@
 use crate::engine_2d::game_state::board2d::Board2D;
-use crate::game::types::{Direction2D, Position2D};
+use crate::game::types::Position2D;
 
 pub trait OnSnakeMove<const W: usize, const H: usize> {
     fn on_event(
