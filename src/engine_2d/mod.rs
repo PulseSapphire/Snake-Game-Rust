@@ -28,10 +28,11 @@ impl<const W: usize, const H: usize> Engine2D<W, H> {
 
         let state = GameState::<W, H>::new(snake, board, food);
         let game_state = Rc::new(RefCell::new(state));
+        let game_controller = GameController2D::new(Rc::downgrade(&game_state).clone());
 
         Self {
             game_state,
-            game_controller: GameController2D::new(Rc::downgrade(&game_state)),
+            game_controller
         }
     }
 }
