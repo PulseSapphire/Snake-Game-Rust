@@ -1,24 +1,20 @@
+use crate::engine_2d::game_state::board2d::Board2D;
 use food::Food;
 use snake::Snake2D;
-use crate::engine_2d::game_state::board2d::Board2D;
 
-pub mod snake;
 pub mod board2d;
 pub mod food;
+pub mod snake;
 
-pub struct GameState <const W: usize, const H: usize> {
+pub struct GameState<const W: usize, const H: usize> {
     snake: Snake2D,
     board: Board2D<W, H>,
-    food: Food
+    food: Food,
 }
 
-impl <const W: usize, const H: usize> GameState<W, H> {
-    pub fn new (snake: Snake2D, board: Board2D<W, H>, food: Food) -> Self {
-        Self {
-            snake,
-            board,
-            food
-        }
+impl<const W: usize, const H: usize> GameState<W, H> {
+    pub fn new(snake: Snake2D, board: Board2D<W, H>, food: Food) -> Self {
+        Self { snake, board, food }
     }
 
     pub fn get_snake(&self) -> &Snake2D {
