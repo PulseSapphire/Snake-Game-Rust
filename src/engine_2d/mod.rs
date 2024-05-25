@@ -32,7 +32,7 @@ impl<const W: usize, const H: usize> Engine2D<W, H> {
 
         Self {
             game_state,
-            game_controller
+            game_controller,
         }
     }
 }

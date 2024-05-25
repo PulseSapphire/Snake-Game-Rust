@@ -111,11 +111,12 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
 
     fn move_tail(snake: &mut Snake2D, board: &mut Board2D<W, H>) {
         let current_tail_pos = snake.get_tail_position();
-        let current_val = if let BoardTile::SnakeTile(value) = board.get_tile_at_pos(current_tail_pos) {
-            value.clone()
-        } else {
-            panic!("Snake's tail position is not valid for board.")
-        };
+        let current_val =
+            if let BoardTile::SnakeTile(value) = board.get_tile_at_pos(current_tail_pos) {
+                value.clone()
+            } else {
+                panic!("Snake's tail position is not valid for board.")
+            };
 
         board.set_tile_at_pos(current_tail_pos, BoardTile::SnakeTile(0));
 
