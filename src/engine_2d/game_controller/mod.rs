@@ -122,20 +122,23 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
     }
 
     pub fn move_snake(&mut self) -> Result<(), &'static str> {
-        if let Direction2D::Stationary = self.snake.get_direction() {
+        let mut state = if let Some(state) = self.game_state.upgrade() {
+            state.borrow_mut()
+        } else {
+            panic!("Failed to get a reference to the game state.")
+        };
+
+        let snake = state.get_mut_snake();
+        if let Stationary = snake.get_direction() {
             return Ok(());
         }
 
-        self.move_head()?;
+        let board = state.get_mut_board();
 
-        let can_move_tail = self.snake.get_move_tail();
+        let can_move_tail = Self::move_head(snake, board)?;
         if can_move_tail {
             self.move_tail();
-        }
-
-        if can_move_tail {
-            self.snake.set_move_tail(true);
-            self.snake.increment_length();
+            snake.increment_length();
         }
 
         Ok(())
