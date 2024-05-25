@@ -1,4 +1,4 @@
-mod board_tile;
+pub mod board_tile;
 
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile::EmptyTile;
