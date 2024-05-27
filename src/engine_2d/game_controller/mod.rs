@@ -118,7 +118,7 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
                 panic!("Snake's tail position is not valid for board.")
             };
 
-        board.set_tile_at_pos(current_tail_pos, BoardTile::SnakeTile(0));
+        board.set_tile_at_pos(current_tail_pos, BoardTile::EmptyTile);
 
         if let Some(position) =
             board.get_adjacent_snake_tile_with_value(current_tail_pos, current_val + 1)
