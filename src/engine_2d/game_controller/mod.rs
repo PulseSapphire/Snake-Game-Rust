@@ -78,8 +78,8 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
             y: ref mut hy,
         } = snake.get_head_position_mut();
 
-        let prev_hx = hx.clone();
-        let prev_hy = hy.clone();
+        let prev_hx = hx.clone() as usize;
+        let prev_hy = hy.clone() as usize;
 
         Self::move_if_valid_direction(dir, board.get_width(), board.get_height(), hx, hy)?;
 
@@ -97,7 +97,7 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
         }
 
         let prev_head_val = if let BoardTile::SnakeTile(val) =
-            board.get_tile_at_index(prev_hx as usize, prev_hy as usize)
+            board.get_tile_at_index(prev_hx, prev_hy)
         {
             val.clone()
         } else {
