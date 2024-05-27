@@ -6,13 +6,14 @@ use crate::game::types::Position2D;
 use game_state::snake::Snake2D;
 use std::cell::RefCell;
 use std::rc::Rc;
+use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
 
 pub mod game_controller;
-mod game_state;
+pub mod game_state;
 
 pub struct Engine2D<const W: usize, const H: usize> {
-    game_state: Rc<RefCell<GameState<W, H>>>,
-    game_controller: GameController2D<W, H>,
+    pub game_state: Rc<RefCell<GameState<W, H>>>,
+    pub game_controller: GameController2D<W, H>,
 }
 
 impl<const W: usize, const H: usize> Engine2D<W, H> {
@@ -22,9 +23,12 @@ impl<const W: usize, const H: usize> Engine2D<W, H> {
             panic!("Each dimension can have a max length of 255 only.");
         }
 
-        let snake = Snake2D::new(start_position);
-        let food = Food::new(starting_food_position);
-        let board = Board2D::<W, H>::new();
+        let snake = Snake2D::new(start_position.clone());
+        let food = Food::new(starting_food_position.clone());
+        let mut board = Board2D::<W, H>::new();
+
+        board.set_tile_at_pos(&start_position, BoardTile::SnakeTile(0));
+        board.set_tile_at_pos(&starting_food_position, BoardTile::FoodTile);
 
         let state = GameState::<W, H>::new(snake, board, food);
         let game_state = Rc::new(RefCell::new(state));
