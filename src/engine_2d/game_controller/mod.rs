@@ -146,7 +146,7 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
         let last_head_pos = snake.get_head_position().clone();
         let last_tail_pos = snake.get_tail_position().clone();
 
-        let can_move_tail = Self::move_head(snake, board)?;
+        let can_move_tail = !Self::move_head(snake, board)?;
         if can_move_tail {
             Self::move_tail(snake, board);
             snake.increment_length();
