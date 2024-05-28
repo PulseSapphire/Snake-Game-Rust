@@ -163,11 +163,7 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
 impl<const W: usize, const H: usize, R: Rng> GameController<Position2D> for GameController2D<W, H, R> {}
 impl<const W: usize, const H: usize, R: Rng> MovementController for GameController2D<W, H, R> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
-        let state_ref = if let Some(state) = self.game_state.upgrade() {
-            state
-        } else {
-            panic!("Failed to get a reference to the game state.")
-        };
+        let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
 
         let mut state = state_ref.borrow_mut();
 
@@ -198,11 +194,7 @@ impl<const W: usize, const H: usize, R: Rng> MovementController for GameControll
 }
 impl<const W: usize, const H: usize, R: Rng> FoodController<Position2D> for GameController2D<W, H, R> {
     fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str> {
-        let state_ref = if let Some(state) = self.game_state.upgrade() {
-            state
-        } else {
-            panic!("Failed to get a reference to the game state.")
-        };
+        let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
 
         let mut state = state_ref.borrow_mut();
 
@@ -219,11 +211,7 @@ impl<const W: usize, const H: usize, R: Rng> FoodController<Position2D> for Game
     }
 
     fn spawn_food_random(&mut self) {
-        let state_ref = if let Some(state) = self.game_state.upgrade() {
-            state
-        } else {
-            panic!("Failed to get a reference to the game state.")
-        };
+        let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
 
         let mut state = state_ref.borrow_mut();
 
