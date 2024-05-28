@@ -9,6 +9,8 @@ use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
 use crate::engine_2d::game_state::board2d::Board2D;
 use crate::engine_2d::game_state::snake::Snake2D;
+use crate::game::engine::game_controller::GameController;
+use crate::game::engine::game_controller::movement_controller::MovementController;
 use crate::game::types::Direction2D::Stationary;
 
 pub struct GameController2D<const W: usize, const H: usize> {
@@ -129,7 +131,33 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
         }
     }
 
-    pub fn move_snake(&mut self) -> Result<(), &'static str> {
+    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<W, H>>) {
+        self.observers.push(observer);
+    }
+
+    pub fn run_event_handlers(
+        &self,
+        last_head_position: &Position2D,
+        new_head_position: &Position2D,
+        last_tail_position: &Position2D,
+        current_tail_position: &Position2D,
+        board: &Board2D<W, H>,
+    ) {
+        for observer in &self.observers {
+            observer.on_event(
+                last_head_position,
+                new_head_position,
+                last_tail_position,
+                current_tail_position,
+                board,
+            );
+        }
+    }
+}
+
+impl <const W: usize, const H: usize> GameController for GameController2D<W, H> {}
+impl <const W: usize, const H: usize> MovementController for GameController2D<W, H> {
+    fn move_snake(&mut self) -> Result<(), &'static str> {
         let state_ref = if let Some(state) = self.game_state.upgrade() {
             state
         } else {
@@ -161,28 +189,5 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
         );
 
         Ok(())
-    }
-
-    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<W, H>>) {
-        self.observers.push(observer);
-    }
-
-    pub fn run_event_handlers(
-        &self,
-        last_head_position: &Position2D,
-        new_head_position: &Position2D,
-        last_tail_position: &Position2D,
-        current_tail_position: &Position2D,
-        board: &Board2D<W, H>,
-    ) {
-        for observer in &self.observers {
-            observer.on_event(
-                last_head_position,
-                new_head_position,
-                last_tail_position,
-                current_tail_position,
-                board,
-            );
-        }
     }
 }
