@@ -10,16 +10,17 @@ use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
 
 use rand::rngs::SmallRng;
 use rand::SeedableRng;
+use crate::game::engine::game_controller::GameController;
 
 pub mod game_controller;
 pub mod game_state;
 
-pub struct Engine2D<const W: usize, const H: usize> {
+pub struct Engine2D<const W: usize, const H: usize, C: GameController> {
     pub game_state: Rc<RefCell<GameState<W, H>>>,
-    pub game_controller: GameController2D<W, H, SmallRng>,
+    pub game_controller: C,
 }
 
-impl<const W: usize, const H: usize> Engine2D<W, H> {
+impl<const W: usize, const H: usize> Engine2D<W, H, GameController2D<W, H, SmallRng>> {
     const U8_MAX_IN_USIZE: usize = u8::MAX as usize;
     pub fn new(start_position: Position2D, starting_food_position: Position2D) -> Self {
         if W > Self::U8_MAX_IN_USIZE || H > Self::U8_MAX_IN_USIZE {
