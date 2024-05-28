@@ -197,7 +197,7 @@ impl <const W: usize, const H: usize, R: Rng> MovementController for GameControl
     }
 }
 impl <const W: usize, const H: usize, R: Rng> FoodController for GameController2D<W, H, R> {
-    fn spawn_food(&mut self, position: &Position2D) {
+    fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str> {
         let state_ref = if let Some(state) = self.game_state.upgrade() {
             state
         } else {
@@ -208,8 +208,14 @@ impl <const W: usize, const H: usize, R: Rng> FoodController for GameController2
 
         let (_, board, food) = state.get_mut_all_fields();
 
+        if board.get_tile_at_pos(position) != &BoardTile::EmptyTile {
+            return Err("Cannot spawn food at given position because it is occupied.");
+        }
+
         food.set_position(position.clone());
         board.set_tile_at_pos(&position, BoardTile::FoodTile);
+
+        Ok(())
     }
 
     fn spawn_food_random(&mut self) {
