@@ -1,5 +1,5 @@
-use crate::game::types::Direction2D::Stationary;
-use crate::game::types::Direction2D;
+use crate::game::types::direction::Direction2D::Stationary;
+use crate::game::types::direction::Direction2D;
 use crate::game::types::position::Position2D;
 
 pub struct Snake2D {
