@@ -1,4 +1,4 @@
-use crate::game::types::Position2D;
+use crate::game::types::position::Position2D;
 
 pub trait FoodController {
     fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str>;

@@ -1,5 +1,5 @@
 use crate::game::engine::game_state::board::board_tile::BoardTile;
-use crate::game::types::Position2D;
+use crate::game::types::position::Position2D;
 
 pub struct Board2D<const W: usize, const H: usize> {
     layout: [[BoardTile; H]; W],

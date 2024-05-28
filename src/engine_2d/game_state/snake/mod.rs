@@ -1,5 +1,6 @@
 use crate::game::types::Direction2D::Stationary;
-use crate::game::types::{Direction2D, Position2D};
+use crate::game::types::Direction2D;
+use crate::game::types::position::Position2D;
 
 pub struct Snake2D {
     head_position: Position2D,

@@ -3,7 +3,7 @@ use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::engine_2d::game_state::food::Food;
 use crate::engine_2d::game_state::GameState;
-use crate::game::types::Position2D;
+use crate::game::types::position::Position2D;
 use game_state::snake::Snake2D;
 use std::cell::RefCell;
 use std::rc::Rc;

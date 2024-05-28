@@ -1,7 +1,7 @@
 pub mod game_controller_observers;
 
 use crate::engine_2d::game_state::GameState;
-use crate::game::types::{Direction2D, Position2D};
+use crate::game::types::Direction2D;
 use rand::Rng;
 use std::cell::RefCell;
 use std::rc::Weak;
@@ -14,6 +14,7 @@ use crate::game::engine::game_controller::food_controller::FoodController;
 use crate::game::engine::game_controller::movement_controller::MovementController;
 use crate::game::engine::game_controller::GameController;
 use crate::game::types::Direction2D::Stationary;
+use crate::game::types::position::Position2D;
 
 pub struct GameController2D<const W: usize, const H: usize, R: Rng> {
     game_state: Weak<RefCell<GameState<W, H>>>,
