@@ -14,7 +14,7 @@ impl Food {
         &self.position
     }
 
-    pub fn set_position (&mut self, position: Position2D) {
+    pub fn set_position(&mut self, position: Position2D) {
         self.position = position;
     }
 

@@ -1,4 +1,3 @@
-
 use crate::game::Game;
 
 struct CLIGame;

@@ -2,17 +2,17 @@ pub mod game_controller_observers;
 
 use crate::engine_2d::game_state::GameState;
 use crate::game::types::{Direction2D, Position2D};
+use rand::Rng;
 use std::cell::RefCell;
 use std::rc::Weak;
-use rand::Rng;
 
 use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
 use crate::engine_2d::game_state::board2d::Board2D;
 use crate::engine_2d::game_state::snake::Snake2D;
 use crate::game::engine::game_controller::food_controller::FoodController;
-use crate::game::engine::game_controller::GameController;
 use crate::game::engine::game_controller::movement_controller::MovementController;
+use crate::game::engine::game_controller::GameController;
 use crate::game::types::Direction2D::Stationary;
 
 pub struct GameController2D<const W: usize, const H: usize, R: Rng> {
@@ -103,13 +103,12 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
             BoardTile::EmptyTile => (),
         }
 
-        let prev_head_val = if let BoardTile::SnakeTile(val) =
-            board.get_tile_at_index(prev_hx, prev_hy)
-        {
-            val.clone()
-        } else {
-            panic!("Tile at given index is not a snake tile.");
-        };
+        let prev_head_val =
+            if let BoardTile::SnakeTile(val) = board.get_tile_at_index(prev_hx, prev_hy) {
+                val.clone()
+            } else {
+                panic!("Tile at given index is not a snake tile.");
+            };
 
         board.set_tile_at_index(hx, hy, BoardTile::SnakeTile(prev_head_val + 1));
 
@@ -160,8 +159,8 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
     }
 }
 
-impl <const W: usize, const H: usize, R: Rng> GameController for GameController2D<W, H, R> {}
-impl <const W: usize, const H: usize, R: Rng> MovementController for GameController2D<W, H, R> {
+impl<const W: usize, const H: usize, R: Rng> GameController for GameController2D<W, H, R> {}
+impl<const W: usize, const H: usize, R: Rng> MovementController for GameController2D<W, H, R> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
         let state_ref = if let Some(state) = self.game_state.upgrade() {
             state
@@ -196,7 +195,7 @@ impl <const W: usize, const H: usize, R: Rng> MovementController for GameControl
         Ok(())
     }
 }
-impl <const W: usize, const H: usize, R: Rng> FoodController for GameController2D<W, H, R> {
+impl<const W: usize, const H: usize, R: Rng> FoodController for GameController2D<W, H, R> {
     fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str> {
         let state_ref = if let Some(state) = self.game_state.upgrade() {
             state
@@ -229,9 +228,15 @@ impl <const W: usize, const H: usize, R: Rng> FoodController for GameController2
 
         let (_, board, food) = state.get_mut_all_fields();
 
-        let mut position = Position2D { x: self.rng.gen_range(0..board.get_width()), y: self.rng.gen_range(0..board.get_height()) };
+        let mut position = Position2D {
+            x: self.rng.gen_range(0..board.get_width()),
+            y: self.rng.gen_range(0..board.get_height()),
+        };
         while board.get_tile_at_pos(&position) != &BoardTile::EmptyTile {
-            position = Position2D { x: self.rng.gen_range(0..board.get_width()), y: self.rng.gen_range(0..board.get_height()) };
+            position = Position2D {
+                x: self.rng.gen_range(0..board.get_width()),
+                y: self.rng.gen_range(0..board.get_height()),
+            };
         }
 
         food.set_position(position.clone());

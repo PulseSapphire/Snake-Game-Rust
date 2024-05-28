@@ -1,4 +1,5 @@
 mod board;
+pub mod engine;
 mod renderer;
 mod snake;
 pub mod types;
