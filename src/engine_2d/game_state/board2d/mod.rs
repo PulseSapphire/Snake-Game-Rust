@@ -1,5 +1,3 @@
-pub mod board_tile;
-
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::types::Position2D;
 
