@@ -229,7 +229,10 @@ impl <const W: usize, const H: usize, R: Rng> FoodController for GameController2
 
         let (_, board, food) = state.get_mut_all_fields();
 
-        let position = Position2D { x: self.rng.gen_range(0..board.get_width()), y: self.rng.gen_range(0..board.get_height()) };
+        let mut position = Position2D { x: self.rng.gen_range(0..board.get_width()), y: self.rng.gen_range(0..board.get_height()) };
+        while board.get_tile_at_pos(&position) != &BoardTile::EmptyTile {
+            position = Position2D { x: self.rng.gen_range(0..board.get_width()), y: self.rng.gen_range(0..board.get_height()) };
+        }
 
         food.set_position(position.clone());
         board.set_tile_at_pos(&position, BoardTile::FoodTile);
