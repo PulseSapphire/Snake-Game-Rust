@@ -1,4 +1,4 @@
-use crate::engine_2d::game_state::board2d::Board2D;
+use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::game::types::Position2D;
 
 pub trait OnSnakeMove<const W: usize, const H: usize> {

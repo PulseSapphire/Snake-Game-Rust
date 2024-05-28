@@ -1,8 +1,8 @@
-use crate::engine_2d::game_state::board2d::Board2D;
+use crate::engine_2d::game_state::board_2d::Board2D;
 use food::Food;
 use snake::Snake2D;
 
-pub mod board2d;
+pub mod board_2d;
 pub mod food;
 pub mod snake;
 

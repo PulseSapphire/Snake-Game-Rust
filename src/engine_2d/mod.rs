@@ -1,6 +1,6 @@
 use crate::engine_2d::game_controller::GameController2D;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
-use crate::engine_2d::game_state::board2d::Board2D;
+use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::engine_2d::game_state::food::Food;
 use crate::engine_2d::game_state::GameState;
 use crate::game::types::Position2D;
