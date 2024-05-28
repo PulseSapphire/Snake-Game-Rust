@@ -7,7 +7,7 @@ use std::cell::RefCell;
 use std::rc::Weak;
 
 use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
-use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
+use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::engine_2d::game_state::board2d::Board2D;
 use crate::engine_2d::game_state::snake::Snake2D;
 use crate::game::engine::game_controller::food_controller::FoodController;
