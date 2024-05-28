@@ -10,6 +10,7 @@ use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
 use crate::engine_2d::game_state::board2d::Board2D;
 use crate::engine_2d::game_state::snake::Snake2D;
+use crate::game::engine::game_controller::food_controller::FoodController;
 use crate::game::engine::game_controller::GameController;
 use crate::game::engine::game_controller::movement_controller::MovementController;
 use crate::game::types::Direction2D::Stationary;
@@ -193,5 +194,38 @@ impl <const W: usize, const H: usize, R: Rng> MovementController for GameControl
         );
 
         Ok(())
+    }
+}
+impl <const W: usize, const H: usize, R: Rng> FoodController for GameController2D<W, H, R> {
+    fn spawn_food(&mut self, position: &Position2D) {
+        let state_ref = if let Some(state) = self.game_state.upgrade() {
+            state
+        } else {
+            panic!("Failed to get a reference to the game state.")
+        };
+
+        let mut state = state_ref.borrow_mut();
+
+        let (_, board, food) = state.get_mut_all_fields();
+
+        food.set_position(position.clone());
+        board.set_tile_at_pos(&position, BoardTile::FoodTile);
+    }
+
+    fn spawn_food_random(&mut self) {
+        let state_ref = if let Some(state) = self.game_state.upgrade() {
+            state
+        } else {
+            panic!("Failed to get a reference to the game state.")
+        };
+
+        let mut state = state_ref.borrow_mut();
+
+        let (_, board, food) = state.get_mut_all_fields();
+
+        let position = Position2D { x: self.rng.gen_range(0..board.get_width()), y: self.rng.gen_range(0..board.get_height()) };
+
+        food.set_position(position.clone());
+        board.set_tile_at_pos(&position, BoardTile::FoodTile);
     }
 }
