@@ -1,3 +1,5 @@
+pub trait Direction {}
+
 #[derive(Clone)]
 pub enum Direction2D {
     Up,
@@ -6,3 +8,5 @@ pub enum Direction2D {
     Right,
     Stationary,
 }
+
+impl Direction for Direction2D {}
