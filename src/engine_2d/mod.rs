@@ -15,7 +15,7 @@ use rand::SeedableRng;
 pub mod game_controller;
 pub mod game_state;
 
-pub struct Engine2D<const W: usize, const H: usize, C: GameController> {
+pub struct Engine2D<const W: usize, const H: usize, C: GameController<Position2D>> {
     pub game_state: Rc<RefCell<GameState<W, H>>>,
     pub game_controller: C,
 }

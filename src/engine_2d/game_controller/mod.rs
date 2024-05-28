@@ -160,7 +160,7 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
     }
 }
 
-impl<const W: usize, const H: usize, R: Rng> GameController for GameController2D<W, H, R> {}
+impl<const W: usize, const H: usize, R: Rng> GameController<Position2D> for GameController2D<W, H, R> {}
 impl<const W: usize, const H: usize, R: Rng> MovementController for GameController2D<W, H, R> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
         let state_ref = if let Some(state) = self.game_state.upgrade() {
@@ -196,7 +196,7 @@ impl<const W: usize, const H: usize, R: Rng> MovementController for GameControll
         Ok(())
     }
 }
-impl<const W: usize, const H: usize, R: Rng> FoodController for GameController2D<W, H, R> {
+impl<const W: usize, const H: usize, R: Rng> FoodController<Position2D> for GameController2D<W, H, R> {
     fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str> {
         let state_ref = if let Some(state) = self.game_state.upgrade() {
             state
