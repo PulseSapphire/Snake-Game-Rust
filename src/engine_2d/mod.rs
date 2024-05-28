@@ -8,12 +8,15 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
 
+use rand::rngs::SmallRng;
+use rand::SeedableRng;
+
 pub mod game_controller;
 pub mod game_state;
 
 pub struct Engine2D<const W: usize, const H: usize> {
     pub game_state: Rc<RefCell<GameState<W, H>>>,
-    pub game_controller: GameController2D<W, H>,
+    pub game_controller: GameController2D<W, H, SmallRng>,
 }
 
 impl<const W: usize, const H: usize> Engine2D<W, H> {
@@ -32,7 +35,7 @@ impl<const W: usize, const H: usize> Engine2D<W, H> {
 
         let state = GameState::<W, H>::new(snake, board, food);
         let game_state = Rc::new(RefCell::new(state));
-        let game_controller = GameController2D::new(Rc::downgrade(&game_state).clone());
+        let game_controller = GameController2D::new(Rc::downgrade(&game_state).clone(), SmallRng::from_entropy());
 
         Self {
             game_state,

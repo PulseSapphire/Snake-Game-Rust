@@ -4,6 +4,7 @@ use crate::engine_2d::game_state::GameState;
 use crate::game::types::{Direction2D, Position2D};
 use std::cell::RefCell;
 use std::rc::Weak;
+use rand::Rng;
 
 use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
 use crate::engine_2d::game_state::board2d::board_tile::BoardTile;
@@ -13,16 +14,19 @@ use crate::game::engine::game_controller::GameController;
 use crate::game::engine::game_controller::movement_controller::MovementController;
 use crate::game::types::Direction2D::Stationary;
 
-pub struct GameController2D<const W: usize, const H: usize> {
+pub struct GameController2D<const W: usize, const H: usize, R: Rng> {
     game_state: Weak<RefCell<GameState<W, H>>>,
     observers: Vec<Box<dyn OnSnakeMove<W, H>>>,
+
+    rng: R,
 }
 
-impl<const W: usize, const H: usize> GameController2D<W, H> {
-    pub fn new(game_state: Weak<RefCell<GameState<W, H>>>) -> Self {
+impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
+    pub fn new(game_state: Weak<RefCell<GameState<W, H>>>, rng: R) -> Self {
         Self {
             game_state,
             observers: Vec::new(),
+            rng,
         }
     }
 
@@ -155,8 +159,8 @@ impl<const W: usize, const H: usize> GameController2D<W, H> {
     }
 }
 
-impl <const W: usize, const H: usize> GameController for GameController2D<W, H> {}
-impl <const W: usize, const H: usize> MovementController for GameController2D<W, H> {
+impl <const W: usize, const H: usize, R: Rng> GameController for GameController2D<W, H, R> {}
+impl <const W: usize, const H: usize, R: Rng> MovementController for GameController2D<W, H, R> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
         let state_ref = if let Some(state) = self.game_state.upgrade() {
             state
