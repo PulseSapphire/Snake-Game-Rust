@@ -1,4 +1,3 @@
-mod snake;
 
 use crate::game::Game;
 
