@@ -1,7 +1,8 @@
 use crate::engine_2d::game_state::board_2d::Board2D;
+use crate::game::events::EventHandler;
 use crate::game::types::position::Position;
 
-pub trait OnSnakeMove<const W: usize, const H: usize, P: Position> {
+pub trait OnSnakeMove<const W: usize, const H: usize, P: Position>: EventHandler {
     fn on_event(
         &self,
         last_head_position: &P,
