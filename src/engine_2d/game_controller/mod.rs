@@ -1,12 +1,10 @@
-pub mod game_controller_observers;
-
 use crate::engine_2d::game_state::GameState;
 use crate::game::types::direction::Direction2D;
 use rand::Rng;
 use std::cell::RefCell;
 use std::rc::Weak;
 
-use crate::engine_2d::game_controller::game_controller_observers::OnSnakeMove;
+use crate::game::events::on_snake_move::OnSnakeMove;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::engine_2d::game_state::snake::Snake2D;
@@ -18,7 +16,7 @@ use crate::game::types::position::Position2D;
 
 pub struct GameController2D<const W: usize, const H: usize, R: Rng> {
     game_state: Weak<RefCell<GameState<W, H>>>,
-    observers: Vec<Box<dyn OnSnakeMove<W, H>>>,
+    observers: Vec<Box<dyn OnSnakeMove<W, H, Position2D>>>,
 
     rng: R,
 }
@@ -136,7 +134,7 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
         }
     }
 
-    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<W, H>>) {
+    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<W, H, Position2D>>) {
         self.observers.push(observer);
     }
 
