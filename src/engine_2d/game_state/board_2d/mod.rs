@@ -1,3 +1,4 @@
+use crate::game::engine::game_state::board::Board;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::types::position::Position2D;
 
@@ -5,44 +6,23 @@ pub struct Board2D<const W: usize, const H: usize> {
     layout: [[BoardTile; H]; W],
 }
 
-impl<const W: usize, const H: usize> Board2D<W, H> {
-    pub fn new() -> Self {
-        Self {
-            layout: [[BoardTile::EmptyTile; H]; W],
-        }
-    }
-
-    pub fn get_tile_at_pos(&self, position: &Position2D) -> &BoardTile {
+impl <const W: usize, const H: usize> Board<Position2D> for Board2D<W, H> {
+    fn get_tile_at_pos(&self, position: &Position2D) -> &BoardTile {
         &self.layout[position.x as usize][position.y as usize]
     }
 
-    pub fn set_tile_at_pos(&mut self, position: &Position2D, new_board_tile: BoardTile) {
+    fn set_tile_at_pos(&mut self, position: &Position2D, new_board_tile: BoardTile) {
         self.layout[position.x as usize][position.y as usize] = new_board_tile;
     }
-
-    pub fn get_tile_at_index(&self, x: usize, y: usize) -> &BoardTile {
+    fn get_tile_at_index(&self, x: usize, y: usize) -> &BoardTile {
         &self.layout[x][y]
     }
 
-    pub fn set_tile_at_index(&mut self, x: usize, y: usize, new_tile_value: BoardTile) {
+    fn set_tile_at_index(&mut self, x: usize, y: usize, new_tile_value: BoardTile) {
         self.layout[x][y] = new_tile_value;
     }
 
-    pub fn get_layout(&self) -> &[[BoardTile; H]] {
-        &self.layout
-    }
-
-    const WIDTH_U8: u8 = W as u8;
-    pub fn get_width(&self) -> u8 {
-        Self::WIDTH_U8
-    }
-
-    const HEIGHT_U8: u8 = H as u8;
-    pub fn get_height(&self) -> u8 {
-        Self::HEIGHT_U8
-    }
-
-    pub fn get_adjacent_snake_tile_with_value(
+    fn get_adjacent_snake_tile_with_value(
         &self,
         position: &Position2D,
         target_value: u16,
@@ -64,5 +44,31 @@ impl<const W: usize, const H: usize> Board2D<W, H> {
         }
 
         None
+    }
+
+    fn get_dimensions<'a>() -> &'a [u8] {
+        &[Self::WIDTH_U8, Self::HEIGHT_U8]
+    }
+}
+
+impl<const W: usize, const H: usize> Board2D<W, H> {
+    pub fn new() -> Self {
+        Self {
+            layout: [[BoardTile::EmptyTile; H]; W],
+        }
+    }
+
+    pub fn get_layout(&self) -> &[[BoardTile; H]] {
+        &self.layout
+    }
+
+    const WIDTH_U8: u8 = W as u8;
+    pub fn get_width(&self) -> u8 {
+        Self::WIDTH_U8
+    }
+
+    const HEIGHT_U8: u8 = H as u8;
+    pub fn get_height(&self) -> u8 {
+        Self::HEIGHT_U8
     }
 }

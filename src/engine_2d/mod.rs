@@ -11,6 +11,7 @@ use std::rc::Rc;
 use crate::game::engine::game_controller::GameController;
 use rand::rngs::SmallRng;
 use rand::SeedableRng;
+use crate::game::engine::game_state::board::Board;
 
 pub mod game_controller;
 pub mod game_state;

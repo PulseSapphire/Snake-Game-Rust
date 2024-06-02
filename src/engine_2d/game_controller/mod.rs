@@ -11,6 +11,7 @@ use crate::engine_2d::game_state::snake::Snake2D;
 use crate::game::engine::game_controller::food_controller::FoodController;
 use crate::game::engine::game_controller::movement_controller::MovementController;
 use crate::game::engine::game_controller::GameController;
+use crate::game::engine::game_state::board::Board;
 use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
