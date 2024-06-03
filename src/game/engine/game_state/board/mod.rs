@@ -2,6 +2,7 @@ use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::types::position::Position;
 
 pub mod board_tile;
+pub mod iterators;
 
 pub trait Board <P: Position> {
     fn get_tile_at_pos(&self, position: &P) -> &BoardTile;
