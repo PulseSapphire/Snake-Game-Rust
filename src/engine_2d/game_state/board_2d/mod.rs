@@ -1,3 +1,4 @@
+pub mod iterators;
 use crate::game::engine::game_state::board::Board;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::types::position::Position2D;
