@@ -17,7 +17,7 @@ use crate::game::types::position::Position2D;
 
 pub struct GameController2D<const W: usize, const H: usize, R: Rng> {
     game_state: Weak<RefCell<GameState<W, H>>>,
-    observers: Vec<Box<dyn OnSnakeMove<W, H, Position2D>>>,
+    observers: Vec<Box<dyn OnSnakeMove<W, H, Position2D, Board2D<W, H>>>>,
 
     rng: R,
 }
@@ -135,7 +135,7 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
         }
     }
 
-    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<W, H, Position2D>>) {
+    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<W, H, Position2D, Board2D<W, H>>>) {
         self.observers.push(observer);
     }
 
