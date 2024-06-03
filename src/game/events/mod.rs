@@ -4,8 +4,8 @@ pub mod on_board_tile_change;
 
 pub trait Event {}
 pub trait CancellableEvent: Event {
-    fn is_cancelled () -> bool;
-    fn cancel_event();
+    fn is_cancelled (&self) -> bool;
+    fn cancel_event(&self);
 }
 
 pub trait EventHandler <E: Event> {
