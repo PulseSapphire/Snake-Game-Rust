@@ -14,13 +14,6 @@ impl <const W: usize, const H: usize> Board<Position2D> for Board2D<W, H> {
     fn set_tile_at_pos(&mut self, position: &Position2D, new_board_tile: BoardTile) {
         self.layout[position.x as usize][position.y as usize] = new_board_tile;
     }
-    fn get_tile_at_index(&self, x: usize, y: usize) -> &BoardTile {
-        &self.layout[x][y]
-    }
-
-    fn set_tile_at_index(&mut self, x: usize, y: usize, new_tile_value: BoardTile) {
-        self.layout[x][y] = new_tile_value;
-    }
 
     fn get_adjacent_snake_tile_with_value(
         &self,
@@ -70,5 +63,13 @@ impl<const W: usize, const H: usize> Board2D<W, H> {
     const HEIGHT_U8: u8 = H as u8;
     pub fn get_height(&self) -> u8 {
         Self::HEIGHT_U8
+    }
+
+    pub fn get_tile_at_index(&self, x: usize, y: usize) -> &BoardTile {
+        &self.layout[x][y]
+    }
+
+    pub fn set_tile_at_index(&mut self, x: usize, y: usize, new_tile_value: BoardTile) {
+        self.layout[x][y] = new_tile_value;
     }
 }
