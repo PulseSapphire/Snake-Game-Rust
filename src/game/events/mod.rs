@@ -19,7 +19,7 @@ pub enum EventError {
     DoesNotExist,
 }
 
-pub trait EventSubject<E: Event, H: EventHandler<E>> {
+pub trait EventSubject<E: Event, H: EventHandler<E> + ?Sized> {
 
     fn add_event_handler (&mut self, event_handler: &H) -> Result<(), EventError>;
 
