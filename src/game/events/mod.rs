@@ -10,7 +10,7 @@ pub trait CancellableEvent: Event {
 
 pub trait EventHandler <E: Event> {
 
-    fn on_event(&self, event: E);
+    fn on_event(&self, event: &mut E);
 
 }
 
