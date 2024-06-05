@@ -4,7 +4,7 @@ use rand::Rng;
 use std::cell::RefCell;
 use std::rc::Weak;
 
-use crate::game::events::on_snake_move::OnSnakeMove;
+use crate::game::events::event_types::on_snake_move::OnSnakeMove;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::engine_2d::game_state::snake::Snake2D;
