@@ -21,7 +21,7 @@ pub enum EventError {
 
 pub trait EventSubject<E: Event, H: EventHandler<E>> {
 
-    fn add_event_handler (&mut self, event_hanlder: &H) -> Result<(), EventError>;
+    fn add_event_handler (&mut self, event_handler: &H) -> Result<(), EventError>;
 
     fn remove_event_handler (&mut self, event_handler: &H) -> Result<(), EventError>;
 
