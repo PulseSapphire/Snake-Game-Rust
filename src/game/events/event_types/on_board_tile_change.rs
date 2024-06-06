@@ -21,7 +21,6 @@ impl<'a, P: Position + 'a> BoardTileChangeEvent<'a, P> {
 }
 
 impl<'a, P: Position> Event for BoardTileChangeEvent<'a, P> {}
-pub trait OnBoardTileChange <'a, P: Position + 'a>: EventHandler<BoardTileChangeEvent<'a, P>> {}
 
 pub trait OnBoardTileChangeHandler<'a, P: Position + 'a>: EventHandler<BoardTileChangeEvent<'a, P>> {
     fn on_event(&self, event: &mut BoardTileChangeEvent<'a, P>);
