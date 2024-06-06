@@ -1,3 +1,7 @@
+pub mod handler;
+pub mod subject;
+pub mod event;
+
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::events::{Event, EventError, EventHandler, EventSubject};
 use crate::game::types::position::Position;
