@@ -15,14 +15,14 @@ use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
 pub struct GameController2D<const W: usize, const H: usize, R: Rng, B: Board2D> {
-    game_state: Weak<RefCell<GameState2D<W, H>>>,
+    game_state: Weak<RefCell<GameState2D<B>>>,
     observers: Vec<Box<dyn OnSnakeMove<Position2D, B>>>,
 
     rng: R,
 }
 
 impl<const W: usize, const H: usize, R: Rng, B: Board2D> GameController2D<W, H, R, B> {
-    pub fn new(game_state: Weak<RefCell<GameState2D<W, H>>>, rng: R) -> Self {
+    pub fn new(game_state: Weak<RefCell<GameState2D<B>>>, rng: R) -> Self {
         Self {
             game_state,
             observers: Vec::new(),

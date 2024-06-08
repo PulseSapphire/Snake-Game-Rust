@@ -17,7 +17,7 @@ pub mod game_controller;
 pub mod game_state;
 
 pub struct Engine2D<const W: usize, const H: usize, C: GameController<Position2D>> {
-    pub game_state: Rc<RefCell<GameState2D<W, H>>>,
+    pub game_state: Rc<RefCell<GameState2D<Board2D<W, H>>>>,
     pub game_controller: C,
 }
 
@@ -35,7 +35,7 @@ impl<const W: usize, const H: usize> Engine2D<W, H, GameController2D<W, H, Small
         board.set_tile_at_pos(&start_position, BoardTile::SnakeTile(0));
         board.set_tile_at_pos(&starting_food_position, BoardTile::FoodTile);
 
-        let state = GameState2D::<W, H>::new(snake, board, food);
+        let state = GameState2D::new(snake, board, food);
         let game_state = Rc::new(RefCell::new(state));
         let game_controller =
             GameController2D::new(Rc::downgrade(&game_state).clone(), SmallRng::from_entropy());
