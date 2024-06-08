@@ -1,4 +1,5 @@
 pub mod iterators;
+pub mod random_tile_generator;
 
 use crate::game::engine::game_state::board;
 use crate::game::engine::game_state::board::Board;
