@@ -14,14 +14,14 @@ use crate::game::engine::game_state::board::{Board, Board2D};
 use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
-pub struct GameController2D<const W: usize, const H: usize, R: Rng, B: Board2D> {
+pub struct GameController2D<R: Rng, B: Board2D> {
     game_state: Weak<RefCell<GameState2D<B>>>,
     observers: Vec<Box<dyn OnSnakeMove<Position2D, B>>>,
 
     rng: R,
 }
 
-impl<const W: usize, const H: usize, R: Rng, B: Board2D> GameController2D<W, H, R, B> {
+impl<R: Rng, B: Board2D> GameController2D<R, B> {
     pub fn new(game_state: Weak<RefCell<GameState2D<B>>>, rng: R) -> Self {
         Self {
             game_state,
@@ -158,8 +158,8 @@ impl<const W: usize, const H: usize, R: Rng, B: Board2D> GameController2D<W, H, 
     }
 }
 
-impl<const W: usize, const H: usize, R: Rng, B: Board2D> GameController<Position2D> for GameController2D<W, H, R, B> {}
-impl<const W: usize, const H: usize, R: Rng, B: Board2D> MovementController for GameController2D<W, H, R, B> {
+impl<R: Rng, B: Board2D> GameController<Position2D> for GameController2D<R, B> {}
+impl<R: Rng, B: Board2D> MovementController for GameController2D<R, B> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
         let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
 
@@ -190,7 +190,7 @@ impl<const W: usize, const H: usize, R: Rng, B: Board2D> MovementController for 
         Ok(())
     }
 }
-impl<const W: usize, const H: usize, R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<W, H, R, B> {
+impl<R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<R, B> {
     fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str> {
         let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
 
