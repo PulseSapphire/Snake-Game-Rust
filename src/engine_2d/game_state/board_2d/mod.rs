@@ -1,4 +1,6 @@
 pub mod iterators;
+
+use crate::game::engine::game_state::board;
 use crate::game::engine::game_state::board::Board;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::types::position::Position2D;
@@ -45,7 +47,28 @@ impl <const W: usize, const H: usize> Board<Position2D> for Board2D<W, H> {
     }
 }
 
+impl <const W: usize, const H: usize> board::Board2D for Board2D<W, H> {
+
+    fn get_width(&self) -> u8 {
+        Self::WIDTH_U8
+    }
+    fn get_height(&self) -> u8 {
+        Self::HEIGHT_U8
+    }
+
+    fn get_tile_at_index(&self, x: usize, y: usize) -> &BoardTile {
+        &self.layout[x][y]
+    }
+
+    fn set_tile_at_index(&mut self, x: usize, y: usize, new_tile_value: BoardTile) {
+        self.layout[x][y] = new_tile_value;
+    }
+}
+
 impl<const W: usize, const H: usize> Board2D<W, H> {
+    const WIDTH_U8: u8 = W as u8;
+    const HEIGHT_U8: u8 = H as u8;
+
     pub fn new() -> Self {
         Self {
             layout: [[BoardTile::EmptyTile; H]; W],
@@ -54,23 +77,5 @@ impl<const W: usize, const H: usize> Board2D<W, H> {
 
     pub fn get_layout(&self) -> &[[BoardTile; H]] {
         &self.layout
-    }
-
-    const WIDTH_U8: u8 = W as u8;
-    pub fn get_width(&self) -> u8 {
-        Self::WIDTH_U8
-    }
-
-    const HEIGHT_U8: u8 = H as u8;
-    pub fn get_height(&self) -> u8 {
-        Self::HEIGHT_U8
-    }
-
-    pub fn get_tile_at_index(&self, x: usize, y: usize) -> &BoardTile {
-        &self.layout[x][y]
-    }
-
-    pub fn set_tile_at_index(&mut self, x: usize, y: usize, new_tile_value: BoardTile) {
-        self.layout[x][y] = new_tile_value;
     }
 }
