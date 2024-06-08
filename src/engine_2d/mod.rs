@@ -1,17 +1,17 @@
 use crate::engine_2d::game_controller::GameController2D;
-use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::engine_2d::game_state::food::Food;
 use crate::engine_2d::game_state::GameState2D;
+use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::types::position::Position2D;
 use game_state::snake::Snake2D;
 use std::cell::RefCell;
 use std::rc::Rc;
 
 use crate::game::engine::game_controller::GameController;
+use crate::game::engine::game_state::board::Board;
 use rand::rngs::SmallRng;
 use rand::SeedableRng;
-use crate::game::engine::game_state::board::Board;
 
 pub mod game_controller;
 pub mod game_state;

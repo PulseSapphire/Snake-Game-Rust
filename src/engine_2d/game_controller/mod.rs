@@ -4,13 +4,13 @@ use rand::Rng;
 use std::cell::RefCell;
 use std::rc::Weak;
 
-use crate::game::events::event_types::on_snake_move::OnSnakeMove;
-use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::engine_2d::game_state::snake::Snake2D;
 use crate::game::engine::game_controller::food_controller::FoodController;
 use crate::game::engine::game_controller::movement_controller::MovementController;
 use crate::game::engine::game_controller::GameController;
+use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::engine::game_state::board::Board2D;
+use crate::game::events::event_types::on_snake_move::OnSnakeMove;
 use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
@@ -161,7 +161,10 @@ impl<R: Rng, B: Board2D> GameController2D<R, B> {
 impl<R: Rng, B: Board2D> GameController<Position2D> for GameController2D<R, B> {}
 impl<R: Rng, B: Board2D> MovementController for GameController2D<R, B> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
-        let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
+        let state_ref = self
+            .game_state
+            .upgrade()
+            .expect("Failed to get a reference to the game state.");
 
         let mut state = state_ref.borrow_mut();
 
@@ -176,8 +179,7 @@ impl<R: Rng, B: Board2D> MovementController for GameController2D<R, B> {
         let grows = Self::move_head(snake, board)?;
         if grows {
             snake.increment_length();
-        }
-        else {
+        } else {
             Self::move_tail(snake, board);
         }
 
@@ -194,7 +196,10 @@ impl<R: Rng, B: Board2D> MovementController for GameController2D<R, B> {
 }
 impl<R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<R, B> {
     fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str> {
-        let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
+        let state_ref = self
+            .game_state
+            .upgrade()
+            .expect("Failed to get a reference to the game state.");
 
         let mut state = state_ref.borrow_mut();
 
@@ -211,7 +216,10 @@ impl<R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<R, B> {
     }
 
     fn spawn_food_random(&mut self) {
-        let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
+        let state_ref = self
+            .game_state
+            .upgrade()
+            .expect("Failed to get a reference to the game state.");
 
         let mut state = state_ref.borrow_mut();
 

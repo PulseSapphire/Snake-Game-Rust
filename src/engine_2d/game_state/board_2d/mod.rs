@@ -2,15 +2,15 @@ pub mod iterators;
 pub mod random_tile_generator;
 
 use crate::game::engine::game_state::board;
-use crate::game::engine::game_state::board::Board;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
+use crate::game::engine::game_state::board::Board;
 use crate::game::types::position::Position2D;
 
 pub struct Board2D<const W: usize, const H: usize> {
     layout: [[BoardTile; H]; W],
 }
 
-impl <const W: usize, const H: usize> Board<Position2D> for Board2D<W, H> {
+impl<const W: usize, const H: usize> Board<Position2D> for Board2D<W, H> {
     fn get_tile_at_pos(&self, position: &Position2D) -> &BoardTile {
         &self.layout[position.x as usize][position.y as usize]
     }
@@ -48,8 +48,7 @@ impl <const W: usize, const H: usize> Board<Position2D> for Board2D<W, H> {
     }
 }
 
-impl <const W: usize, const H: usize> board::Board2D for Board2D<W, H> {
-
+impl<const W: usize, const H: usize> board::Board2D for Board2D<W, H> {
     fn get_width(&self) -> u8 {
         Self::WIDTH_U8
     }

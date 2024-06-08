@@ -1,7 +1,6 @@
 use crate::game::engine::game_state::board::Board;
 use crate::game::types::position::Position;
 
-
 pub trait OnSnakeMove<P: Position, B: Board<P>> {
     fn on_event(
         &self,

@@ -1,17 +1,14 @@
-pub mod event_types;
 pub mod event_manager;
-
+pub mod event_types;
 
 pub trait Event {}
 pub trait CancellableEvent: Event {
-    fn is_cancelled (&self) -> bool;
+    fn is_cancelled(&self) -> bool;
     fn cancel_event(&self);
 }
 
-pub trait EventHandler <E: Event> {
-
+pub trait EventHandler<E: Event> {
     fn on_event(&self, event: &mut E);
-
 }
 
 pub enum EventError {
@@ -20,9 +17,7 @@ pub enum EventError {
 }
 
 pub trait EventSubject<E: Event, H: EventHandler<E> + ?Sized> {
+    fn add_event_handler(&mut self, event_handler: &H) -> Result<(), EventError>;
 
-    fn add_event_handler (&mut self, event_handler: &H) -> Result<(), EventError>;
-
-    fn remove_event_handler (&mut self, event_handler: &H) -> Result<(), EventError>;
-
+    fn remove_event_handler(&mut self, event_handler: &H) -> Result<(), EventError>;
 }

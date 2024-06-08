@@ -5,4 +5,4 @@ use crate::game::types::position::Position;
 pub mod food_controller;
 pub mod movement_controller;
 
-pub trait GameController <P: Position>: MovementController + FoodController<P> {}
+pub trait GameController<P: Position>: MovementController + FoodController<P> {}
