@@ -15,8 +15,8 @@ pub trait Board <P: Position> {
 }
 
 pub trait Board2D: Board<Position2D> {
-    fn get_width() -> u8;
-    fn get_height() -> u8;
+    fn get_width(&self) -> u8;
+    fn get_height(&self) -> u8;
 
     fn get_tile_at_index(&self, x: usize, y: usize) -> &BoardTile;
     fn set_tile_at_index(&mut self, x: usize, y: usize, new_tile_value: BoardTile);
