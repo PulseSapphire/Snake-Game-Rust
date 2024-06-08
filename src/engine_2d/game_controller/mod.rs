@@ -173,10 +173,12 @@ impl<R: Rng, B: Board2D> MovementController for GameController2D<R, B> {
         let last_head_pos = snake.get_head_position().clone();
         let last_tail_pos = snake.get_tail_position().clone();
 
-        let can_move_tail = !Self::move_head(snake, board)?;
-        if can_move_tail {
-            Self::move_tail(snake, board);
+        let grows = Self::move_head(snake, board)?;
+        if grows {
             snake.increment_length();
+        }
+        else {
+            Self::move_tail(snake, board);
         }
 
         self.run_event_handlers(
