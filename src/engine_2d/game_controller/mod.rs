@@ -10,7 +10,7 @@ use crate::engine_2d::game_state::snake::Snake2D;
 use crate::game::engine::game_controller::food_controller::FoodController;
 use crate::game::engine::game_controller::movement_controller::MovementController;
 use crate::game::engine::game_controller::GameController;
-use crate::game::engine::game_state::board::{Board, Board2D};
+use crate::game::engine::game_state::board::Board2D;
 use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
@@ -138,7 +138,7 @@ impl<R: Rng, B: Board2D> GameController2D<R, B> {
         self.observers.push(observer);
     }
 
-    pub fn run_event_handlers(
+    fn run_event_handlers(
         &self,
         last_head_position: &Position2D,
         new_head_position: &Position2D,
