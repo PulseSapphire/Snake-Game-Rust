@@ -6,23 +6,22 @@ use std::rc::Weak;
 
 use crate::game::events::event_types::on_snake_move::OnSnakeMove;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
-use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::engine_2d::game_state::snake::Snake2D;
 use crate::game::engine::game_controller::food_controller::FoodController;
 use crate::game::engine::game_controller::movement_controller::MovementController;
 use crate::game::engine::game_controller::GameController;
-use crate::game::engine::game_state::board::Board;
+use crate::game::engine::game_state::board::{Board, Board2D};
 use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
-pub struct GameController2D<const W: usize, const H: usize, R: Rng> {
+pub struct GameController2D<const W: usize, const H: usize, R: Rng, B: Board2D> {
     game_state: Weak<RefCell<GameState2D<W, H>>>,
-    observers: Vec<Box<dyn OnSnakeMove<Position2D, Board2D<W, H>>>>,
+    observers: Vec<Box<dyn OnSnakeMove<Position2D, B>>>,
 
     rng: R,
 }
 
-impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
+impl<const W: usize, const H: usize, R: Rng, B: Board2D> GameController2D<W, H, R, B> {
     pub fn new(game_state: Weak<RefCell<GameState2D<W, H>>>, rng: R) -> Self {
         Self {
             game_state,
@@ -77,7 +76,7 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
         Ok(())
     }
 
-    fn move_head(snake: &mut Snake2D, board: &mut Board2D<W, H>) -> Result<bool, &'static str> {
+    fn move_head(snake: &mut Snake2D, board: &mut B) -> Result<bool, &'static str> {
         let mut grows = false;
         let dir = snake.get_direction().clone();
         let Position2D {
@@ -115,7 +114,7 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
         Ok(grows)
     }
 
-    fn move_tail(snake: &mut Snake2D, board: &mut Board2D<W, H>) {
+    fn move_tail(snake: &mut Snake2D, board: &mut B) {
         let current_tail_pos = snake.get_tail_position();
         let current_val =
             if let BoardTile::SnakeTile(value) = board.get_tile_at_pos(current_tail_pos) {
@@ -135,7 +134,7 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
         }
     }
 
-    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<Position2D, Board2D<W, H>>>) {
+    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<Position2D, B>>) {
         self.observers.push(observer);
     }
 
@@ -145,7 +144,7 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
         new_head_position: &Position2D,
         last_tail_position: &Position2D,
         current_tail_position: &Position2D,
-        board: &Board2D<W, H>,
+        board: &B,
     ) {
         for observer in &self.observers {
             observer.on_event(
@@ -159,8 +158,8 @@ impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
     }
 }
 
-impl<const W: usize, const H: usize, R: Rng> GameController<Position2D> for GameController2D<W, H, R> {}
-impl<const W: usize, const H: usize, R: Rng> MovementController for GameController2D<W, H, R> {
+impl<const W: usize, const H: usize, R: Rng, B: Board2D> GameController<Position2D> for GameController2D<W, H, R, B> {}
+impl<const W: usize, const H: usize, R: Rng, B: Board2D> MovementController for GameController2D<W, H, R, B> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
         let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
 
@@ -191,7 +190,7 @@ impl<const W: usize, const H: usize, R: Rng> MovementController for GameControll
         Ok(())
     }
 }
-impl<const W: usize, const H: usize, R: Rng> FoodController<Position2D> for GameController2D<W, H, R> {
+impl<const W: usize, const H: usize, R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<W, H, R, B> {
     fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str> {
         let state_ref = self.game_state.upgrade().expect("Failed to get a reference to the game state.");
 

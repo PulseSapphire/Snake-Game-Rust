@@ -21,7 +21,7 @@ pub struct Engine2D<const W: usize, const H: usize, C: GameController<Position2D
     pub game_controller: C,
 }
 
-impl<const W: usize, const H: usize> Engine2D<W, H, GameController2D<W, H, SmallRng>> {
+impl<const W: usize, const H: usize> Engine2D<W, H, GameController2D<W, H, SmallRng, Board2D<W, H>>> {
     const U8_MAX_IN_USIZE: usize = u8::MAX as usize;
     pub fn new(start_position: Position2D, starting_food_position: Position2D) -> Self {
         if W > Self::U8_MAX_IN_USIZE || H > Self::U8_MAX_IN_USIZE {
