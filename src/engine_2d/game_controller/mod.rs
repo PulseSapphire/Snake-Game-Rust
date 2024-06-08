@@ -1,4 +1,4 @@
-use crate::engine_2d::game_state::GameState;
+use crate::engine_2d::game_state::GameState2D;
 use crate::game::types::direction::Direction2D;
 use rand::Rng;
 use std::cell::RefCell;
@@ -16,14 +16,14 @@ use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
 pub struct GameController2D<const W: usize, const H: usize, R: Rng> {
-    game_state: Weak<RefCell<GameState<W, H>>>,
+    game_state: Weak<RefCell<GameState2D<W, H>>>,
     observers: Vec<Box<dyn OnSnakeMove<Position2D, Board2D<W, H>>>>,
 
     rng: R,
 }
 
 impl<const W: usize, const H: usize, R: Rng> GameController2D<W, H, R> {
-    pub fn new(game_state: Weak<RefCell<GameState<W, H>>>, rng: R) -> Self {
+    pub fn new(game_state: Weak<RefCell<GameState2D<W, H>>>, rng: R) -> Self {
         Self {
             game_state,
             observers: Vec::new(),

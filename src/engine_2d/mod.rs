@@ -2,7 +2,7 @@ use crate::engine_2d::game_controller::GameController2D;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::engine_2d::game_state::food::Food;
-use crate::engine_2d::game_state::GameState;
+use crate::engine_2d::game_state::GameState2D;
 use crate::game::types::position::Position2D;
 use game_state::snake::Snake2D;
 use std::cell::RefCell;
@@ -17,7 +17,7 @@ pub mod game_controller;
 pub mod game_state;
 
 pub struct Engine2D<const W: usize, const H: usize, C: GameController<Position2D>> {
-    pub game_state: Rc<RefCell<GameState<W, H>>>,
+    pub game_state: Rc<RefCell<GameState2D<W, H>>>,
     pub game_controller: C,
 }
 
@@ -35,7 +35,7 @@ impl<const W: usize, const H: usize> Engine2D<W, H, GameController2D<W, H, Small
         board.set_tile_at_pos(&start_position, BoardTile::SnakeTile(0));
         board.set_tile_at_pos(&starting_food_position, BoardTile::FoodTile);
 
-        let state = GameState::<W, H>::new(snake, board, food);
+        let state = GameState2D::<W, H>::new(snake, board, food);
         let game_state = Rc::new(RefCell::new(state));
         let game_controller =
             GameController2D::new(Rc::downgrade(&game_state).clone(), SmallRng::from_entropy());
