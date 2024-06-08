@@ -1,16 +1,16 @@
-use crate::engine_2d::game_state::board_2d::Board2D;
+use crate::game::engine::game_state::board::Board2D;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::engine::game_state::board::iterators::BoardIterator;
 use crate::game::types::position::Position2D;
 
-pub struct Board2DIterator<'a, const W: usize, const H: usize> {
-    board: &'a Board2D<W, H>,
+pub struct Board2DIterator<'a, B: Board2D> {
+    board: &'a B,
     row: usize,
     col: usize
 }
 
-impl <'a, const W: usize, const H: usize> Board2DIterator<'a, W, H> {
-    pub fn new (board: &'a Board2D<W, H>) -> Self {
+impl <'a, B: Board2D> Board2DIterator<'a, B> {
+    pub fn new (board: &'a B) -> Self {
         Self {
             board,
             row: 0,
@@ -19,21 +19,21 @@ impl <'a, const W: usize, const H: usize> Board2DIterator<'a, W, H> {
     }
 }
 
-impl <'a, const W: usize, const H: usize> BoardIterator<'a, Position2D> for Board2DIterator<'a, W, H> {}
+impl <'a, B: Board2D> BoardIterator<'a, Position2D> for Board2DIterator<'a, B> {}
 
-impl <'a, const W: usize, const H: usize> Iterator for Board2DIterator<'a, W, H> {
+impl <'a, B: Board2D> Iterator for Board2DIterator<'a, B> {
 
     type Item = (Position2D, &'a BoardTile);
 
     fn next(&mut self) -> Option<Self::Item> {
-        if self.col > W {
+        if self.col > self.board.get_width() as usize {
             return None;
         }
 
         let tile = self.board.get_tile_at_index(self.row, self.col);
         let item = (Position2D { x: self.row as u8, y: self.col as u8 }, tile);
 
-        if self.row + 1 == H {
+        if self.row + 1 == self.board.get_height() as usize {
             self.col += 1;
             self.row = 0;
         }
