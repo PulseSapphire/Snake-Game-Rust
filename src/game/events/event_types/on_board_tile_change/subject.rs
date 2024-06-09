@@ -6,12 +6,12 @@ use crate::game::types::position::Position;
 pub trait OnBoardTileChangeSubject<'a, P: Position + 'a>:
     EventSubject<BoardTileChangeEvent<'a, P>, dyn OnBoardTileChangeHandler<'a, P>>
 {
-    fn add_event_handler(
+    fn add_on_board_tile_change_event_handler(
         &mut self,
         event_handler: &dyn OnBoardTileChangeHandler<P>,
     ) -> Result<(), EventError>;
 
-    fn remove_event_handler(
+    fn remove_on_board_tile_change_event_handler(
         &mut self,
         event_handler: &dyn OnBoardTileChangeHandler<P>,
     ) -> Result<(), EventError>;
@@ -26,13 +26,13 @@ where
         &mut self,
         event_handler: &dyn OnBoardTileChangeHandler<P>,
     ) -> Result<(), EventError> {
-        OnBoardTileChangeSubject::add_event_handler(self, event_handler)
+        self.add_on_board_tile_change_event_handler(event_handler)
     }
 
     fn remove_event_handler(
         &mut self,
         event_handler: &dyn OnBoardTileChangeHandler<P>,
     ) -> Result<(), EventError> {
-        OnBoardTileChangeSubject::remove_event_handler(self, event_handler)
+        self.remove_on_board_tile_change_event_handler(event_handler)
     }
 }
