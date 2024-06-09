@@ -25,7 +25,7 @@ impl<'a, B: Board2D> Iterator for Board2DIterator<'a, B> {
     type Item = (Position2D, &'a BoardTile);
 
     fn next(&mut self) -> Option<Self::Item> {
-        if self.col > self.board.get_width() as usize {
+        if self.col == self.board.get_width() as usize {
             return None;
         }
 
