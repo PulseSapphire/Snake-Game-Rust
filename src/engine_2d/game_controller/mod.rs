@@ -10,13 +10,14 @@ use crate::game::engine::game_controller::movement_controller::MovementControlle
 use crate::game::engine::game_controller::GameController;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
 use crate::game::engine::game_state::board::Board2D;
-use crate::game::events::event_types::on_snake_move::OnSnakeMove;
+use crate::game::events::event_types::on_snake_move::event::SnakeMoveEvent;
+use crate::game::events::event_types::on_snake_move::handler::OnSnakeMoveHandler;
 use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
 pub struct GameController2D<R: Rng, B: Board2D> {
     game_state: Weak<RefCell<GameState2D<B>>>,
-    observers: Vec<Box<dyn OnSnakeMove<Position2D, B>>>,
+    observers: Vec<Box<dyn OnSnakeMoveHandler<Position2D>>>,
 
     rng: R,
 }
@@ -134,7 +135,7 @@ impl<R: Rng, B: Board2D> GameController2D<R, B> {
         }
     }
 
-    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMove<Position2D, B>>) {
+    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMoveHandler<Position2D>>) {
         self.observers.push(observer);
     }
 
@@ -144,16 +145,18 @@ impl<R: Rng, B: Board2D> GameController2D<R, B> {
         new_head_position: &Position2D,
         last_tail_position: &Position2D,
         current_tail_position: &Position2D,
-        board: &B,
+        length: u16,
     ) {
+        let mut event = SnakeMoveEvent::new(
+            last_head_position,
+            new_head_position,
+            last_tail_position,
+            current_tail_position,
+            length
+        );
         for observer in &self.observers {
-            observer.on_event(
-                last_head_position,
-                new_head_position,
-                last_tail_position,
-                current_tail_position,
-                board,
-            );
+
+            observer.on_event(&mut event);
         }
     }
 }
@@ -188,7 +191,7 @@ impl<R: Rng, B: Board2D> MovementController for GameController2D<R, B> {
             snake.get_head_position(),
             &last_tail_pos,
             snake.get_head_position(),
-            board,
+            snake.get_length(),
         );
 
         Ok(())
