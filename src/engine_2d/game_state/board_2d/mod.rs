@@ -1,8 +1,10 @@
 pub mod iterators;
 pub mod random_tile_generator;
 
+use crate::engine_2d::game_state::board_2d::iterators::Board2DIterator;
 use crate::game::engine::game_state::board;
 use crate::game::engine::game_state::board::board_tile::BoardTile;
+use crate::game::engine::game_state::board::iterators::IterableBoard;
 use crate::game::engine::game_state::board::Board;
 use crate::game::types::position::Position2D;
 
@@ -77,5 +79,17 @@ impl<const W: usize, const H: usize> Board2D<W, H> {
 
     pub fn get_layout(&self) -> &[[BoardTile; H]] {
         &self.layout
+    }
+}
+
+impl<'a, const W: usize, const H: usize> IterableBoard<'a, Position2D, Board2DIterator<'a, Board2D<W, H>>> for &'a Board2D<W, H> {}
+
+impl<'a, const W: usize, const H: usize>
+IntoIterator
+for &'a Board2D<W, H> {
+    type Item = (Position2D, &'a BoardTile);
+    type IntoIter = Board2DIterator<'a, Board2D<W, H>>;
+    fn into_iter(self) -> Self::IntoIter {
+        Board2DIterator::new(self)
     }
 }
