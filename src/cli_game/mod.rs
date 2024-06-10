@@ -5,11 +5,11 @@ use crate::engine_2d::game_controller::GameController2D;
 use crate::engine_2d::game_state::board_2d::Board2D;
 use crate::game::types::position::Position2D;
 
-struct CLIGame<const W: usize, const H: usize> {
-    engine: Engine2D<W, H, GameController2D<SmallRng, Board2D<W, H>>>,
+struct CLIGame<'a, const W: usize, const H: usize> {
+    engine: Engine2D<W, H, GameController2D<'a, SmallRng, Board2D<W, H>>>,
 }
 
-impl <const W: usize, const H: usize> CLIGame<W, H> {
+impl <'a, const W: usize, const H: usize> CLIGame<'a, W, H> {
     pub fn new () -> Self {
         let mut rng = SmallRng::from_entropy();
         let start_pos = Position2D { x: rng.gen_range(0..W) as u8, y: rng.gen_range(0..H) as u8  };

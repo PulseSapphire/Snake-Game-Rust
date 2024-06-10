@@ -15,14 +15,14 @@ use crate::game::events::event_types::on_snake_move::handler::OnSnakeMoveHandler
 use crate::game::types::direction::Direction2D::Stationary;
 use crate::game::types::position::Position2D;
 
-pub struct GameController2D<R: Rng, B: Board2D> {
+pub struct GameController2D<'a, R: Rng, B: Board2D> {
     game_state: Weak<RefCell<GameState2D<B>>>,
-    observers: Vec<Box<dyn OnSnakeMoveHandler<Position2D>>>,
+    observers: Vec<&'a dyn OnSnakeMoveHandler<Position2D>>,
 
     rng: R,
 }
 
-impl<R: Rng, B: Board2D> GameController2D<R, B> {
+impl<'a, R: Rng, B: Board2D> GameController2D<'a, R, B> {
     pub fn new(game_state: Weak<RefCell<GameState2D<B>>>, rng: R) -> Self {
         Self {
             game_state,
@@ -135,7 +135,7 @@ impl<R: Rng, B: Board2D> GameController2D<R, B> {
         }
     }
 
-    pub fn add_event_handler(&mut self, observer: Box<dyn OnSnakeMoveHandler<Position2D>>) {
+    pub fn add_event_handler(&mut self, observer: &'a dyn OnSnakeMoveHandler<Position2D>) {
         self.observers.push(observer);
     }
 
@@ -161,8 +161,8 @@ impl<R: Rng, B: Board2D> GameController2D<R, B> {
     }
 }
 
-impl<R: Rng, B: Board2D> GameController<Position2D> for GameController2D<R, B> {}
-impl<R: Rng, B: Board2D> MovementController for GameController2D<R, B> {
+impl<'a, R: Rng, B: Board2D> GameController<Position2D> for GameController2D<'a, R, B> {}
+impl<'a, R: Rng, B: Board2D> MovementController for GameController2D<'a, R, B> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
         let state_ref = self
             .game_state
@@ -197,7 +197,7 @@ impl<R: Rng, B: Board2D> MovementController for GameController2D<R, B> {
         Ok(())
     }
 }
-impl<R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<R, B> {
+impl<'a, R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<'a, R, B> {
     fn spawn_food(&mut self, position: &Position2D) -> Result<(), &'static str> {
         let state_ref = self
             .game_state
