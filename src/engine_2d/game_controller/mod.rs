@@ -22,6 +22,7 @@ pub struct GameController2D<'a, R: Rng, B: Board2D> {
     rng: R,
 }
 
+// impl block for instantiation methods.
 impl<'a, R: Rng, B: Board2D> GameController2D<'a, R, B> {
     pub fn new(game_state: Weak<RefCell<GameState2D<B>>>, rng: R) -> Self {
         Self {
@@ -30,7 +31,10 @@ impl<'a, R: Rng, B: Board2D> GameController2D<'a, R, B> {
             rng,
         }
     }
+}
 
+// impl block for movement methods.
+impl<'a, R: Rng, B: Board2D> GameController2D<'a, R, B> {
     fn move_if_valid_direction(
         dir: Direction2D,
         width: u8,
@@ -134,33 +138,9 @@ impl<'a, R: Rng, B: Board2D> GameController2D<'a, R, B> {
             panic!("Could not find new valid tail position for snake.");
         }
     }
-
-    pub fn add_event_handler(&mut self, observer: &'a dyn OnSnakeMoveHandler<Position2D>) {
-        self.observers.push(observer);
-    }
-
-    fn run_event_handlers(
-        &self,
-        last_head_position: &Position2D,
-        new_head_position: &Position2D,
-        last_tail_position: &Position2D,
-        current_tail_position: &Position2D,
-        length: u16,
-    ) {
-        let mut event = SnakeMoveEvent::new(
-            last_head_position,
-            new_head_position,
-            last_tail_position,
-            current_tail_position,
-            length
-        );
-        for observer in &self.observers {
-
-            observer.on_event(&mut event);
-        }
-    }
 }
 
+// impl blocks for GameController trait implementation and its sub traits' implementations.
 impl<'a, R: Rng, B: Board2D> GameController<Position2D> for GameController2D<'a, R, B> {}
 impl<'a, R: Rng, B: Board2D> MovementController for GameController2D<'a, R, B> {
     fn move_snake(&mut self) -> Result<(), &'static str> {
@@ -241,5 +221,31 @@ impl<'a, R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<'a,
 
         food.set_position(position.clone());
         board.set_tile_at_pos(&position, BoardTile::FoodTile);
+    }
+}
+
+impl<'a, R: Rng, B: Board2D> GameController2D<'a, R, B> {
+    pub fn add_event_handler(&mut self, observer: &'a dyn OnSnakeMoveHandler<Position2D>) {
+        self.observers.push(observer);
+    }
+
+    fn run_event_handlers(
+        &self,
+        last_head_position: &Position2D,
+        new_head_position: &Position2D,
+        last_tail_position: &Position2D,
+        current_tail_position: &Position2D,
+        length: u16,
+    ) {
+        let mut event = SnakeMoveEvent::new(
+            last_head_position,
+            new_head_position,
+            last_tail_position,
+            current_tail_position,
+            length
+        );
+        for observer in &self.observers {
+            observer.on_event(&mut event);
+        }
     }
 }
