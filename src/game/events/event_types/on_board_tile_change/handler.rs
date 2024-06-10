@@ -2,18 +2,18 @@ use crate::game::events::event_types::on_board_tile_change::event::BoardTileChan
 use crate::game::events::EventHandler;
 use crate::game::types::position::Position;
 
-pub trait OnBoardTileChangeHandler<'a, P: Position + 'a>:
-    EventHandler<BoardTileChangeEvent<'a, P>>
+pub trait OnBoardTileChangeHandler<P: Position>:
+    for <'a> EventHandler<BoardTileChangeEvent<'a, P>>
 {
-    fn on_board_tile_change_event(&self, event: &mut BoardTileChangeEvent<'a, P>);
+    fn on_board_tile_change_event(&self, event: &mut BoardTileChangeEvent<P>);
 }
 
-impl<'a, T, P> EventHandler<BoardTileChangeEvent<'a, P>> for T
+impl<T, P> EventHandler<BoardTileChangeEvent<'_, P>> for T
 where
-    T: OnBoardTileChangeHandler<'a, P>,
+    T: OnBoardTileChangeHandler<P>,
     P: Position,
 {
-    fn on_event(&self, event: &mut BoardTileChangeEvent<'a, P>) {
+    fn on_event(&self, event: &mut BoardTileChangeEvent<P>) {
         self.on_board_tile_change_event(event);
     }
 }
