@@ -2,6 +2,7 @@ use crate::engine_2d::game_state::GameState2D;
 use crate::game::types::direction::Direction2D;
 use rand::Rng;
 use std::cell::RefCell;
+use std::collections::HashSet;
 use std::rc::Weak;
 
 use crate::engine_2d::game_state::snake::Snake2D;
@@ -17,7 +18,7 @@ use crate::game::types::position::Position2D;
 
 pub struct GameController2D<'a, R: Rng, B: Board2D> {
     game_state: Weak<RefCell<GameState2D<B>>>,
-    observers: Vec<&'a dyn OnSnakeMoveHandler<Position2D>>,
+    observers: HashSet<&'a dyn OnSnakeMoveHandler<Position2D>>,
 
     rng: R,
 }
@@ -27,7 +28,7 @@ impl<'a, R: Rng, B: Board2D> GameController2D<'a, R, B> {
     pub fn new(game_state: Weak<RefCell<GameState2D<B>>>, rng: R) -> Self {
         Self {
             game_state,
-            observers: Vec::new(),
+            observers: HashSet::new(),
             rng,
         }
     }
