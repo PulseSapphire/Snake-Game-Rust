@@ -224,6 +224,7 @@ impl<'a, R: Rng, B: Board2D> FoodController<Position2D> for GameController2D<'a,
     }
 }
 
+// impl block for event handling methods.
 impl<'a, R: Rng, B: Board2D> GameController2D<'a, R, B> {
     pub fn add_event_handler(&mut self, observer: &'a dyn OnSnakeMoveHandler<Position2D>) {
         self.observers.push(observer);
