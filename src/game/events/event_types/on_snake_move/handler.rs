@@ -2,18 +2,18 @@ use crate::game::events::event_types::on_snake_move::event::SnakeMoveEvent;
 use crate::game::events::EventHandler;
 use crate::game::types::position::Position;
 
-pub trait OnSnakeMoveHandler<'a, P: Position + 'a>:
-    EventHandler<SnakeMoveEvent<'a, P>>
+pub trait OnSnakeMoveHandler<P: Position>:
+    for <'a> EventHandler<SnakeMoveEvent<'a, P>>
 {
-    fn on_snake_move_event(&self, event: &mut SnakeMoveEvent<'a, P>);
+    fn on_snake_move_event(&self, event: &mut SnakeMoveEvent<P>);
 }
 
-impl<'a, T, P> EventHandler<SnakeMoveEvent<'a, P>> for T
+impl<T, P> EventHandler<SnakeMoveEvent<'_, P>> for T
 where
-    T: OnSnakeMoveHandler<'a, P>,
+    T: OnSnakeMoveHandler<P>,
     P: Position,
 {
-    fn on_event(&self, event: &mut SnakeMoveEvent<'a, P>) {
+    fn on_event(&self, event: &mut SnakeMoveEvent<P>) {
         self.on_snake_move_event(event);
     }
 }
